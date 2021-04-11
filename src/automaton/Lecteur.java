@@ -3,10 +3,8 @@ package automaton;
 import java.util.*;
 
 public class Lecteur {
-    public Lecteur(){
 
-    }
-    public Automaton lecture(Scanner lecteur){
+    public static Automaton lecture(Scanner lecteur){
         int numberAlphabet = Integer.parseInt(lecteur.nextLine());
 
         int numberState = Integer.parseInt(lecteur.nextLine());
@@ -34,7 +32,6 @@ public class Lecteur {
             transition[i] = lecteur.nextLine();
             i++;
         }
-
 
         return new Automaton(numberAlphabet, numberState,initState, finishState, numberTransition, transition);
     }
