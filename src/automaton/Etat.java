@@ -14,9 +14,9 @@ public class Etat {
         this.init = init;
         this.finish = finish;
         indexIn = 0;
-        this.in = new Transition[numberTransition];
+        in = new Transition[numberTransition];
         indexOut = 0;
-        this.out = new Transition[numberTransition];
+        out = new Transition[numberTransition];
     }
 
     /**Contructeur**/
