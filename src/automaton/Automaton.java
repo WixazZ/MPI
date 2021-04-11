@@ -5,24 +5,24 @@ import java.util.*;
 public class Automaton {
 
     //Nombre de mot dans l'alphabet
-    private int numberAlphabet;
+    private final int numberAlphabet;
 
     //nombre d'état
-    private int numberState;
+    private final int numberState;
 
     //état initiaux
-    private int[] initState;
+    private final int[] initState;
 
     //état finaux
-    private int[] finishState;
+    private final int[] finishState;
 
     //number of transition
-    private int numberTransition;
+    private final int numberTransition;
 
     //tableau of transition
-    private Transition[] transition;
+    private final Etat[] etats;
 
-
+    /**Contructeur**/
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){
         this.numberAlphabet = numberAlphabet;
         this.numberState = numberState;

@@ -8,7 +8,8 @@ public class Etat {
     private int indexOut;
     private boolean init;
     private boolean finish;
-    
+
+    /**Contructeur**/
     public Etat(int name, boolean init, boolean finish, int numberTransition){
         this.name = name;
         this.init = init;
@@ -19,7 +20,7 @@ public class Etat {
         out = new Transition[numberTransition];
     }
 
-    /**Contructeur**/
+    /**ACCESSEURS**/
     public int getName() {
         return name;
     }

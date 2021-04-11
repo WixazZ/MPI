@@ -11,7 +11,7 @@ public class Transition {
         this.arrive = arrive;
     }
 
-
+    /**ACCESSEURS**/
     public char getWord() {
         return word;
     }
