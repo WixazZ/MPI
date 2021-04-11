@@ -64,8 +64,10 @@ public class Etat {
     public void addTransition(Transition transition, boolean inBool){
         if(inBool){
             in[indexIn] = transition;
+            indexIn++;
         } else{
-            in[indexOut] = transition;
+            out[indexOut] = transition;
+            indexOut++;
         }
     }
 }
