@@ -44,12 +44,12 @@ public class Etat {
         this.name = name;
     }
 
-    public void setIn(Transition[] in) {
-        this.in = in;
+    public void setIn(Transition[] input) {
+        in = input;
     }
 
-    public void setOut(Transition[] out) {
-        this.out = out;
+    public void setOut(Transition[] output) {
+        out = output;
     }
 
     public void setInit(boolean init) {
