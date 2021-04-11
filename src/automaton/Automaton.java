@@ -62,6 +62,7 @@ public class Automaton {
                 j++;
             }
             word = str.charAt(j);
+            j++;
             for (;j < lengthStr; j++){
                 arrive.append(str.charAt(j));
             }
@@ -70,10 +71,5 @@ public class Automaton {
             etats[Integer.parseInt(arrive.toString())].addTransition(trans, false);
             i++;
         }
-    }
-
-    public Automaton(Scanner lecteur) {
-
-
     }
 }

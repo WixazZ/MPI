@@ -3,6 +3,9 @@ package automaton;
 import java.util.*;
 
 public class Lecteur {
+    public Lecteur(){
+
+    }
     public Automaton lecture(Scanner lecteur){
         int numberAlphabet = Integer.parseInt(lecteur.nextLine());
 
@@ -29,6 +32,7 @@ public class Lecteur {
         i = 0;
         while(lecteur.hasNextLine()){
             transition[i] = lecteur.nextLine();
+            i++;
         }
 
 

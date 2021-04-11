@@ -1,4 +1,4 @@
-package Standard;
+package standard;
 
 public abstract class Standard {
     private boolean isStandard = false;
