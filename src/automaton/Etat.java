@@ -62,6 +62,29 @@ public class Etat {
     }
 
     /**Methode**/
+    public void printEtat(){
+        System.out.println("*********************************************");
+        System.out.println("Nom de l'état: " + name);
+        if(init){
+            System.out.println("Etat initial");
+        }
+        if(finish){
+            System.out.println("Etat Terminal");
+        }
+        printTransition();
+    }
+
+    public void printTransition(){
+        System.out.println("Transition entrante:");
+        for (int i = 0; i < indexIn; i++){
+            System.out.println(in[i].getStart().name + " " + in[i].getWord() + " " + in[i].getArrive().name);
+        }
+        System.out.println("Transition sortante:");
+        for (int i = 0; i < indexOut; i++){
+            System.out.println(out[i].getStart().name + " " + out[i].getWord() + " " + out[i].getArrive().name);
+        }
+    }
+
     public void addTransition(Transition transition, boolean inBool){
         if(inBool){
             in[indexIn] = transition;

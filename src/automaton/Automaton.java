@@ -67,8 +67,8 @@ public class Automaton {
                 arrive.append(str.charAt(j));
             }
             Transition trans = new Transition(etats[Integer.parseInt(start.toString())], word, etats[Integer.parseInt(arrive.toString())]);
-            etats[Integer.parseInt(start.toString())].addTransition(trans, true);
-            etats[Integer.parseInt(arrive.toString())].addTransition(trans, false);
+            etats[Integer.parseInt(start.toString())].addTransition(trans, false);
+            etats[Integer.parseInt(arrive.toString())].addTransition(trans, true);
             i++;
         }
     }
@@ -97,4 +97,29 @@ public class Automaton {
     public Etat[] getEtats() {
         return etats;
     }
+
+    /**Methode**/
+    public void printInitState(){
+        for (int element: initState){
+            System.out.println("Etat initial: " + element);
+        }
+    }
+
+    public void printFinsihState(){
+        for (int element: finishState){
+            System.out.println("Etat Sortant: " + element);
+        }
+    }
+
+    public void printAutomate(){
+        System.out.println("Nombre alphabet: " + numberAlphabet);
+        System.out.println("Nombre d'états: " + numberState);
+        printInitState();
+        printFinsihState();
+        System.out.println("Nombre de transition: " + numberTransition);
+        for (Etat element: etats){
+            element.printEtat();
+        }
+    }
+
 }

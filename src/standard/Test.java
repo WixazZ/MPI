@@ -9,8 +9,10 @@ public class Test {
         File fichier = new File("ressource/automate.txt");
         Scanner lecteur = new Scanner(fichier);
 
-        Lecteur auto = new Lecteur();
-        Automaton autom = auto.lecture(lecteur);
+        Automaton autom = Lecteur.lecture(lecteur);
 
+        autom.printAutomate();
     }
+
+
 }
