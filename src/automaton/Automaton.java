@@ -72,4 +72,29 @@ public class Automaton {
             i++;
         }
     }
+
+    /**ACCESSEURS**/
+    public int getNumberAlphabet() {
+        return numberAlphabet;
+    }
+
+    public int getNumberState() {
+        return numberState;
+    }
+
+    public int[] getInitState() {
+        return initState;
+    }
+
+    public int[] getFinishState() {
+        return finishState;
+    }
+
+    public int getNumberTransition() {
+        return numberTransition;
+    }
+
+    public Etat[] getEtats() {
+        return etats;
+    }
 }
