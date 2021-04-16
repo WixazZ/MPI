@@ -73,6 +73,19 @@ public class Automaton {
         }
     }
 
+    public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, Etat[] etats){
+        this.numberAlphabet = numberAlphabet;
+        this.numberState = numberState;
+        this.initState = initState;
+        this.finishState = finishState;
+        this.numberTransition = numberTransition;
+        this.etats = new Etat[numberState];
+
+        for (int i = 0; i < numberState; i++){
+            this.etats[i] = etats[i].copie();
+        }
+    }
+
     /**ACCESSEURS**/
     public int getNumberAlphabet() {
         return numberAlphabet;
@@ -120,6 +133,10 @@ public class Automaton {
         for (Etat element: etats){
             element.printEtat();
         }
+    }
+
+    public Automaton copie(){
+        return new Automaton(this.numberAlphabet, this.numberState, this.initState, this.finishState, this.numberTransition, this.etats);
     }
 
 }
