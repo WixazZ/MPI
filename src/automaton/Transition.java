@@ -5,6 +5,7 @@ public class Transition {
     private char word;
     private Etat arrive;
 
+    /**Constructeurs**/
     public Transition(Etat start,char word,Etat arrive){
         this.start = start;
         this.word = word;
@@ -34,5 +35,10 @@ public class Transition {
 
     public void setWord(char word) {
         this.word = word;
+    }
+
+    /**Méthode**/
+    public Transition copie(){
+        return new Transition(this.start, this.word, this.arrive);
     }
 }
