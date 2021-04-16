@@ -20,6 +20,16 @@ public class Etat {
         out = new Transition[numberTransition];
     }
 
+    public Etat(int name, boolean init, boolean finish, int indexIn, int indexOut){
+        this.name = name;
+        this.init = init;
+        this.finish = finish;
+        this.indexIn = indexIn;
+        in = new Transition[indexIn];
+        this.indexOut = indexOut;
+        out = new Transition[indexOut];
+    }
+
     /**ACCESSEURS**/
     public int getName() {
         return name;
@@ -93,5 +103,20 @@ public class Etat {
             out[indexOut] = transition;
             indexOut++;
         }
+    }
+
+    public Etat copie(){
+
+        Etat etat = new Etat(this.name, this.init, this.finish, this.indexIn, this.indexOut);
+
+        for(int i = 0; i < indexIn; i++){
+            etat.in[i] = this.in[i].copie();
+        }
+
+        for(int i = 0; i < indexOut; i++){
+            etat.out[i] = this.out[i].copie();
+        }
+
+        return etat;
     }
 }
