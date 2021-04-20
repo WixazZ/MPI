@@ -12,6 +12,8 @@ public class Test {
         Automaton autom = Lecteur.lecture(lecteur);
 
         autom.printAutomate();
+
+        autom.complementaire();
     }
 
 

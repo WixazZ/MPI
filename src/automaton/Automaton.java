@@ -139,4 +139,18 @@ public class Automaton {
         return new Automaton(this.numberAlphabet, this.numberState, this.initState, this.finishState, this.numberTransition, this.etats);
     }
 
+    public void complementaire(){
+        /*if (isComplet(Automaton) == false) {
+            return Completer(Automaton);
+        }*/
+
+        for (int i = 0; i < numberState; i++) {
+            if (etats[i].getFinish())
+                etats[i].setFinish(false);
+
+            if (!etats[i].getFinish())
+                etats[i].setFinish(true);
+        }
+    }
+
 }
