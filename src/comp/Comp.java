@@ -1,6 +1,8 @@
 package comp;
+
 import java.util.*;
-import automaton;
+
+import automaton.*;
 
 
 
