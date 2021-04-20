@@ -145,11 +145,13 @@ public class Automaton {
         }*/
 
         for (int i = 0; i < numberState; i++) {
-            if (etats[i].getFinish())
+            if (etats[i].getFinish()){
                 etats[i].setFinish(false);
-
-            if (!etats[i].getFinish())
+                System.out.println("ça marche");
+            } else{
                 etats[i].setFinish(true);
+                System.out.println("ça marche");
+            }
         }
     }
 
