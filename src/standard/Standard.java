@@ -48,7 +48,7 @@ public class Standard {
 
             Transition[] trans_out = AFD.getEtats()[AFD.getInitState()[0]].getOut();
 
-
+            int modif_numberState = AFD.getNumberState();
             for (int i = 1; i < AFD.getInitState().length; i++) {
 
                 int k = 0;
@@ -75,28 +75,30 @@ public class Standard {
 
                 AFD.getEtats()[AFD.getInitState()[0]].setIndexIn(AFD.getEtats()[AFD.getInitState()[0]].getIndexIn() + AFD.getEtats()[AFD.getInitState()[i]].getIndexIn());
                 AFD.getEtats()[AFD.getInitState()[0]].setIndexOut(AFD.getEtats()[AFD.getInitState()[0]].getIndexOut() + AFD.getEtats()[AFD.getInitState()[i]].getIndexOut());
-                AFD.getEtats()[AFD.getInitState()[i]] = null;
+                //AFD.getEtats()[AFD.getInitState()[i]] = null;
                 if(i == 1){
                     AFD.getEtats()[AFD.getInitState()[0]].setName(AFD.getNumberState());
                 }
-                AFD.setNumberState(AFD.getNumberState()-1);
+                modif_numberState--;
 
-                Etat[] reetat = new Etat[AFD.getNumberState()];
-                int ite = 1;
-                k = 0;
-                while (ite < AFD.getNumberState()){
-                    if(!AFD.getEtats()[ite].getInit()){
-                        reetat[ite] = AFD.getEtats()[k];
-                    }
-                    k++;
-                    ite++;
-                }
-
-
-
-                AFD.setEtats(reetat);
 
             }
+
+            Etat[] reetat = new Etat[modif_numberState];
+            int ite = 0;
+            int k = 0;
+            while (ite < AFD.getNumberState()){
+                if(AFD.getInitState()[0] == ite || !AFD.getEtats()[ite].getInit()){
+                    reetat[k] = AFD.getEtats()[ite];
+                    k++;
+                }
+
+                ite++;
+
+            }
+
+            AFD.setNumberState(modif_numberState);
+            AFD.setEtats(reetat);
 
             int[] init = new int[1];
             init[0] = AFD.getInitState()[0];
