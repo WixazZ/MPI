@@ -43,6 +43,14 @@ public class Etat {
         return out;
     }
 
+    public int getIndexIn() {
+        return indexIn;
+    }
+
+    public int getIndexOut() {
+        return indexOut;
+    }
+
     public boolean getInit() {
         return init;
     }
@@ -69,6 +77,14 @@ public class Etat {
 
     public void setFinish(boolean finish) {
         this.finish = finish;
+    }
+
+    public void setIndexIn(int indexIn) {
+        this.indexIn = indexIn;
+    }
+
+    public void setIndexOut(int indexOut) {
+        this.indexOut = indexOut;
     }
 
     /**Methode**/
