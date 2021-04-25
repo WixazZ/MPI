@@ -14,7 +14,7 @@ public class Automaton {
     private int[] initState;
 
     //état finaux
-    private final int[] finishState;
+    private int[] finishState;
 
     //number of transition
     private int numberTransition;
@@ -125,6 +125,10 @@ public class Automaton {
 
     public void setInitState(int[] initState) {
         this.initState = initState;
+    }
+
+    public void setFinishState(int[] finishState) {
+        this.finishState = finishState;
     }
 
     /**Methode**/

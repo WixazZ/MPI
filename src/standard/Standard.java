@@ -175,8 +175,6 @@ public class Standard {
         if(AFD.getEtats()[AFD.getInitState()[0]].getIn() != null){
             int numberTransition = AFD.getNumberTransition()+ AFD.getEtats()[AFD.getInitState()[0]].getIndexIn()+AFD.getEtats()[AFD.getInitState()[0]].getIndexOut();
 
-            //Etat initi = new Etat(numberStateIfReturn, true, AFD.getEtats()[AFD.getInitState()[0]].getFinish(), numberTransition);
-
             Etat initi = AFD.getEtats()[AFD.getInitState()[0]].copie();
             AFD.setNumberTransition(numberTransition);
             initi.setName(numberStateIfReturn);
@@ -198,10 +196,11 @@ public class Standard {
                 }
             }
             AFD.setEtats(newStates);
+            majInitFinishState();
         }
 
     }
-    public boolean contient(Transition[] tab, Transition var){
+    private boolean contient(Transition[] tab, Transition var){
 
         for (Transition transition : tab) {
             if (transition != null && transition.getStart().getName() == var.getStart().getName() && transition.getArrive().getName() == var.getArrive().getName() && transition.getWord() == var.getWord()) {
@@ -210,6 +209,30 @@ public class Standard {
         }
         return true;
     }
+
+    public void majInitFinishState(){
+        int[] tempInit = new int[AFD.getEtats().length];
+        int[] tempFinish = new int[AFD.getEtats().length];
+        int numberInitState = 0;
+        int numberFinishState = 0;
+        for (int i = 0; i < AFD.getEtats().length; i++) {
+            if(AFD.getEtats()[i].getInit()){
+                tempInit[numberInitState] = AFD.getEtats()[i].getName();
+                numberInitState++;
+            }
+            if(AFD.getEtats()[i].getFinish()){
+                tempFinish[numberFinishState] = AFD.getEtats()[i].getName();
+                numberFinishState++;
+            }
+        }
+        int[] init = new int[numberInitState];
+        int[] finish = new int[numberFinishState];
+        System.arraycopy(tempInit, 0, init, 0, numberInitState);
+        System.arraycopy(tempFinish, 0, finish, 0, numberFinishState);
+        AFD.setInitState(init);
+        AFD.setFinishState(finish);
+    }
+
 
     public Automaton getAFD() {
         return AFD;
