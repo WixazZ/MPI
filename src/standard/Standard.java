@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Standard {
 
-    private boolean isStandard = true;
+    private boolean isStandard;
     private final Automaton AFD;
 
     public Standard(Automaton autom){
