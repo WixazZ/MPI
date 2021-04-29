@@ -8,19 +8,19 @@ public class Automaton {
     private final int numberAlphabet;
 
     //nombre d'état
-    private final int numberState;
+    private int numberState;
 
     //état initiaux
-    private final int[] initState;
+    private int[] initState;
 
     //état finaux
-    private final int[] finishState;
+    private int[] finishState;
 
     //number of transition
-    private final int numberTransition;
+    private int numberTransition;
 
     //tableau of transition
-    private final Etat[] etats;
+    private Etat[] etats;
 
     /**Contructeur**/
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){
@@ -109,6 +109,26 @@ public class Automaton {
 
     public Etat[] getEtats() {
         return etats;
+    }
+
+    public void setEtats(Etat[] etats) {
+        this.etats = etats;
+    }
+
+    public void setNumberTransition(int numberTransition) {
+        this.numberTransition = numberTransition;
+    }
+
+    public void setNumberState(int numberState) {
+        this.numberState = numberState;
+    }
+
+    public void setInitState(int[] initState) {
+        this.initState = initState;
+    }
+
+    public void setFinishState(int[] finishState) {
+        this.finishState = finishState;
     }
 
     /**Methode**/
