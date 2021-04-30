@@ -41,7 +41,9 @@ public class Determinise {
     }
 
     public void determiniser(){
+        if(!isDeterministe){
 
+        }
 
     }
 
