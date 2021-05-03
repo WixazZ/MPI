@@ -152,27 +152,31 @@ public class Automaton {
 
         numberState++;
         etats = Arrays.copyOf(etats, numberState);
-        etats[numberState - 1] = new Etat(numberState - 1, false, false, numberAlphabet);
+        etats[numberState - 1] = new Etat(numberState - 1, false, false, numberAlphabet * (numberState - 1));
 
-        for (int j = 0; j < numberTransition; j++) {
+        /*for (int j = 0; j < numberTransition; j++) {
             etats = Arrays.copyOf(etats, numberState + 1);
             etats[numberState - 1] = new Etat(numberState - 1, false, false, numberAlphabet);
-        }
+        }*/
 
 
         for (int i = 0; i < numberState; i++) {
+            System.out.println("Je suis l'état " + i);
             for (int j = 0; j < numberAlphabet; j++) {
-                boolean complet = true;
+                System.out.println("Je suis la lettre " + alphabet[j]);
+                boolean complet = false;
                 int k = 0;
-                while (complet && k < numberAlphabet) {
+                while (!complet && k < etats[i].getIndexOut()) {
                     if (etats[i].getOut()[k].getWord() == alphabet[j]) {
-                        k++;
+                        complet = true;
                     } else {
-                        complet = false;
+                        k++;
                     }
                 }
+                System.out.println("J'ai " + numberState + " états");
 
                 if (!complet) {
+                    System.out.println("Je crée un transition ");
                     Transition trans = new Transition(etats[i], alphabet[j], etats[numberState - 1]);
                     etats[i].addTransition(trans, false);
                     etats[numberState - 1].addTransition(trans, true);
