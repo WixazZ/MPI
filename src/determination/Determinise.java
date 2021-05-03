@@ -16,6 +16,7 @@ public class Determinise {
 
     public void isDeterministe(){
         if(AFD.getInitState().length != 1){
+            System.out.println("L'auto");
             isDeterministe = false;
         } else {
             boolean asVerify = true;
@@ -42,6 +43,7 @@ public class Determinise {
 
     public void determiniser(){
         if(!isDeterministe){
+
 
         }
 
