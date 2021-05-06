@@ -16,7 +16,7 @@ public class Determinise {
 
     public void isDeterministe(){
         if(AFD.getInitState().length != 1){
-            System.out.println("L'auto");
+            System.out.println("L'automate n'est pas deterministe car il contient plusieurs états initials");
             isDeterministe = false;
         } else {
             boolean asVerify = true;
@@ -30,6 +30,7 @@ public class Determinise {
                     NameOutEtat = AFD.getEtats()[i].getOut()[j].getWord();
 
                     if(OutEtat.contains(NameOutEtat)){
+                        System.out.println("L'automate n'est pas deterministe car l'état "+ AFD.getEtats()[i]+ " contient plusieurs états identiaque");
                         asVerify = false;
                     }
                     OutEtat.add(NameOutEtat);
@@ -38,6 +39,9 @@ public class Determinise {
                 i++;
             }
             isDeterministe = asVerify;
+            if(asVerify){
+                System.out.println("L'automate est bien deterministe");
+            }
         }
     }
 

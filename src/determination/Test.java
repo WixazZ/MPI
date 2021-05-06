@@ -18,7 +18,6 @@ public class Test {
         autom.printAutomate();
 
         Determinise deter = new Determinise(autom);
-        deter.isDeterministe();
         System.out.println(deter.getisDeterministe());
 
     }
