@@ -14,6 +14,8 @@ public class Test {
         File fichier = new File("ressource/automate1.txt");
 
 
+        File fichier = new File("ressource/automate3.txt");
+      
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
