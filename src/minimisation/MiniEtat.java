@@ -14,6 +14,12 @@ public class MiniEtat {
         this.transition = null;
     }
 
+    public MiniEtat(Etat etat, MiniGroup miniGroup){
+        this.etat = etat;
+        this.miniGroup = miniGroup;
+        this.transition = null;
+    }
+
     /**Accesseurs */
     public MiniGroup getMiniGroup(){
         return miniGroup;

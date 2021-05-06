@@ -15,6 +15,12 @@ public class MiniGroup {
         this.indexEtats = 0;
     }
 
+    public MiniGroup(String name){
+        this.name = name;
+        this.miniEtats = null;
+        this.indexEtats = 0;
+    }
+
     public MiniGroup(String name, MiniEtat[] miniEtats, int indexEtats){
         this.name = name;
         this.miniEtats = miniEtats;
@@ -48,9 +54,15 @@ public class MiniGroup {
 
     /**Methode */
     public void addEtat(MiniEtat etat){
-        miniEtats = Arrays.copyOf(miniEtats, indexEtats + 1);
-        miniEtats[indexEtats] = etat;
-        indexEtats++;
+        if(indexEtats == 0){
+            miniEtats = new MiniEtat[1];
+            indexEtats++;
+        } else{
+            miniEtats = Arrays.copyOf(miniEtats, indexEtats + 1);
+            miniEtats[indexEtats] = etat;
+            indexEtats++;
+        }
+    
     }
 
     public void removeEtat(MiniEtat etat){
@@ -73,5 +85,9 @@ public class MiniGroup {
             indexEtats--;
             miniEtats = Arrays.copyOf(miniEtats, indexEtats);
         }
+    }
+
+    public void makeTransition(){
+        
     }
 }
