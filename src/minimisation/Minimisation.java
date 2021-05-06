@@ -8,6 +8,38 @@ public class Minimisation {
 
         MiniGroup[] groups = initMinimation(automate);
 
+        boolean minimized = false;
+
+        while(!minimized){
+
+        }
+
+    }
+
+    public MiniGroup[] split(MiniGroup group){
+
+        MiniGroup[] groupes = new MiniGroup[group.getIndexMiniEtats()];
+        groupes[0] = new MiniGroup(group.getName() + "0", group.getFinish());
+        groupes[0].addEtat(new MiniEtat(group.getMiniEtats()[1], groupes[0]));
+        int indexMiniGroup = 1;
+
+        for(int i = 1; i < group.getIndexMiniEtats(); i++){
+            boolean same = false;
+            int j = 0;
+            while(j < indexMiniGroup && !same){
+                same = group.getMiniEtats()[i].compareTransition(groupes[j].getMiniEtats()[0]);
+                j++;
+            }
+            if(same){
+                j--;
+                groupes[j].addEtat(new MiniEtat(group.getMiniEtats()[i], groupes[j]));
+            } else{
+                groupes[j] = new MiniGroup(group.getName() + j, group.getFinish());
+                indexMiniGroup++;
+            }
+        }
+
+        return groupes;
     }
 
     public MiniGroup[] initMinimation(Automaton automate){
@@ -32,7 +64,6 @@ public class Minimisation {
         groupes[1].makeTransition(groupes, lengthGroupes);
 
         return groupes;
-
     }
     
 }

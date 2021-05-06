@@ -99,4 +99,6 @@ public class MiniGroup {
             miniEtats[i].makeTransition(groupes, lengthGroupes);
         }
     }
+
+    
 }

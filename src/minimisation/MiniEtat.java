@@ -20,6 +20,12 @@ public class MiniEtat {
         this.transition = new MiniTransition[etat.getIndexOut()];
     }
 
+    public MiniEtat(MiniEtat miniEtat, MiniGroup miniGroup){
+        this.etat = miniEtat.etat;
+        this.miniGroup = miniGroup;
+        this.transition = miniEtat.transition;
+    }
+
     /**Accesseurs */
     public MiniGroup getMiniGroup(){
         return miniGroup;
@@ -48,6 +54,9 @@ public class MiniEtat {
     /**Methode */
     public void makeTransition(MiniGroup[] groupes, int lengthGroupes){
         char[] alphabet = new char[etat.getIndexOut()];
+        for(int i = 0; i < etat.getIndexOut(); i++){
+            alphabet[i] = (char) ('a' + i);
+        }
 
         for(int i = 0; i < etat.getIndexOut(); i++){
             boolean created = false;
@@ -69,6 +78,22 @@ public class MiniEtat {
                 j++;
             }
         }
+    }
+
+    public boolean compareTransition(MiniEtat miniEtat){
+
+        boolean same = true;
+
+        for(int i = 0; i < this.transition.length && same; i++){
+            String group1 = miniEtat.transition[i].getArrive().miniGroup.getName();
+            String group2 = transition[i].getArrive().miniGroup.getName();
+            for(int j = 0; j < group2.length() && same; j++){
+                if(group1.charAt(j) != group2.charAt(j)){
+                    same = false;
+                }
+            }
+        }
+        return same;
     }
 }
 
