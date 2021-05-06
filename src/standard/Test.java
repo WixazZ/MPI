@@ -6,7 +6,7 @@ import java.util.*;
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 
-        File fichier = new File("ressource/automate4.txt");
+        File fichier = new File("ressource/automate3.txt");
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
