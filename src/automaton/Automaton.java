@@ -202,6 +202,9 @@ public class Automaton {
                     etats[numberState - 1].addTransition(trans, true);
                     numberTransition++;
                 }
+            }
+        }
+    }
 
     public void complementaire(){
         /*if (isComplet(Automaton) == false) {
@@ -220,9 +223,10 @@ public class Automaton {
     }
 
     public boolean isComplet(){
-        if(numberAlphabet * numberState < numberTransition)
+        if(numberAlphabet * numberState < numberTransition){
             System.out.println("ERREUR du is_complet");
-
+            return false;
+        }
         if (numberAlphabet * numberState == numberTransition) {
             System.out.println("L'automate est complet car tout les �tats ont une transition");
             return true;}

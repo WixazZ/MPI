@@ -13,7 +13,6 @@ public class Test {
       
         File fichier = new File("ressource/automate1.txt");
 
-        File fichier = new File("ressource/automate6.txt");
 
         Scanner lecteur = new Scanner(fichier);
 

@@ -43,14 +43,6 @@ public class Etat {
         return out;
     }
 
-    public int getIndexIn() {
-        return indexIn;
-    }
-
-    public int getIndexOut() {
-        return indexOut;
-    }
-
     public boolean getInit() {
         return init;
     }
