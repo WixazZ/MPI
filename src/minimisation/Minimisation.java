@@ -1,5 +1,7 @@
 package minimisation;
 
+import java.io.*;
+import java.util.*;
 import automaton.*;
 
 public class Minimisation {
@@ -12,11 +14,37 @@ public class Minimisation {
 
         while(!minimized){
 
+            MiniGroup[] newGroups = new MiniGroup[0];
+
+            for(int i = 0; i < groups.length; i++){
+                newGroups = appendMiniGroupArray(newGroups, split(groups[i]));
+            }
+
+            int newLength = newGroups.length;
+            for(int i = 0; i < newLength; i++){
+                newGroups[i].makeTransition(newGroups, newLength);
+            }
+            minimized = isMinimized(groups, newGroups);
         }
 
     }
 
-    public MiniGroup[] split(MiniGroup group){
+    public MiniGroup[] appendMiniGroupArray(MiniGroup newGroups[], MiniGroup tempGroup[]){
+        int newLength = newGroups.length;
+        int tempLength = tempGroup.length;
+        newGroups = Arrays.copyOf(newGroups, newLength + tempLength);
+        
+        for(int i = 0; i < tempLength; i++){
+            newGroups[newLength + i] = tempGroup[i];
+        }
+        return newGroups;
+    }
+
+    public boolean isMinimized(MiniGroup oldGroup[], MiniGroup currentGroup[]){
+        return oldGroup.length == currentGroup.length;
+    }
+
+    public MiniGroup[] split(MiniGroup group){//Split des différents MiniGroup
 
         MiniGroup[] groupes = new MiniGroup[group.getIndexMiniEtats()];
         groupes[0] = new MiniGroup(group.getName() + "0", group.getFinish());
@@ -42,7 +70,7 @@ public class Minimisation {
         return groupes;
     }
 
-    public MiniGroup[] initMinimation(Automaton automate){
+    public MiniGroup[] initMinimation(Automaton automate){//Initialisation des MiniGroups T et N
 
         Etat[] etats = automate.getEtats();
 
