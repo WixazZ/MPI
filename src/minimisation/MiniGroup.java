@@ -1,22 +1,23 @@
 package minimisation;
 
-import automaton.*;
+import java.util.Arrays;
+
 
 public class MiniGroup {
     private String name;
-    private Etat[] etats;
+    private MiniEtat[] miniEtats;
     private int indexEtats;
 
     /**Constructeur */
     public MiniGroup(){
         this.name = "";
-        this.etats = null;
+        this.miniEtats = null;
         this.indexEtats = 0;
     }
 
-    public MiniGroup(String name, Etat[] etats, int indexEtats){
+    public MiniGroup(String name, MiniEtat[] miniEtats, int indexEtats){
         this.name = name;
-        this.etats = etats;
+        this.miniEtats = miniEtats;
         this.indexEtats = indexEtats;
     }
 
@@ -25,8 +26,8 @@ public class MiniGroup {
         return name;
     }
 
-    public Etat[] getEtats(){
-        return etats;
+    public MiniEtat[] getEtats(){
+        return miniEtats;
     }
 
     public int getIndexEtats(){
@@ -37,8 +38,8 @@ public class MiniGroup {
         this.name = name;
     }
 
-    public void setEtats(Etats[] etats){
-        this.etats = etats;
+    public void setEtats(MiniEtat[] miniEtats){
+        this.miniEtats = miniEtats;
     }
 
     public void setIndexEtats(int indexEtats){
@@ -46,31 +47,31 @@ public class MiniGroup {
     }
 
     /**Methode */
-    public void addEtat(Etat etat){
-        etats = Array.copyof(etats, indexEtats + 1);
-        etats[indexEtats] = etat;
+    public void addEtat(MiniEtat etat){
+        miniEtats = Arrays.copyOf(miniEtats, indexEtats + 1);
+        miniEtats[indexEtats] = etat;
         indexEtats++;
     }
 
-    public void removeEtat(Etat etat){
+    public void removeEtat(MiniEtat etat){
         int i = 0;
-        for(; i < indexEtats && etats[i] != etat; i++){}
-        if(i < indexEtats && etats[i] == etat){
+        for(; i < indexEtats && miniEtats[i] != etat; i++){}
+        if(i < indexEtats && miniEtats[i] == etat){
             for(; i < indexEtats - 1; i++){
-                etats[i] = etats[i + 1];
+                miniEtats[i] = miniEtats[i + 1];
             }
             indexEtats--;
-            etats = Array.copyof(etats, indexEtats);
+            miniEtats = Arrays.copyOf(miniEtats, indexEtats);
         }
     }
 
     public void removeEtat(int index){
         if(index < indexEtats){
             for(int i = index; i < indexEtats - 1; i++){
-                etats[i] = etats[i + 1];
+                miniEtats[i] = miniEtats[i + 1];
             }
             indexEtats--;
-            etats = Array.copyof(etats, indexEtats);
+            miniEtats = Arrays.copyOf(miniEtats, indexEtats);
         }
     }
 }
