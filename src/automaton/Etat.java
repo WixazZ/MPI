@@ -59,6 +59,14 @@ public class Etat {
         return finish;
     }
 
+    public int getIndexIn() {
+        return indexIn;
+    }
+
+    public int getIndexOut() {
+        return indexOut;
+    }
+
     public void setName(int name) {
         this.name = name;
     }
