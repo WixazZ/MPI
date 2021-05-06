@@ -8,13 +8,17 @@ public class Test {
       
       
         File fichier = new File("ressource/automate1.txt");
-      
+
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
 
         autom.printAutomate();
 
+
+        autom.completer();
+
+        autom.printAutomate();
         Standard stand = new Standard(autom);
         stand.isStandard();
         System.out.println(stand.getIsStandard());
@@ -23,6 +27,7 @@ public class Test {
         System.out.println("**********************STANDARDISER**********************\n");
         stand.getAFD().printAutomate();
         //autom.complementaire();
+
     }
 
 
