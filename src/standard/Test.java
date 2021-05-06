@@ -5,17 +5,24 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
-
+      
+      
         File fichier = new File("ressource/automate1.txt");
+      
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
 
         autom.printAutomate();
 
-        autom.complementaire();
+        Standard stand = new Standard(autom);
+        stand.isStandard();
+        System.out.println(stand.getIsStandard());
+        stand.standardiser();
 
-        autom.printAutomate();
+        System.out.println("**********************STANDARDISER**********************\n");
+        stand.getAFD().printAutomate();
+        //autom.complementaire();
     }
 
 
