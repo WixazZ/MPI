@@ -11,7 +11,7 @@ public class Automaton {
     private int numberState;
 
     //état initiaux
-    private  int[] initState;
+    private int[] initState;
 
     //état finaux
     private int[] finishState;
@@ -111,6 +111,26 @@ public class Automaton {
         return etats;
     }
 
+    public void setEtats(Etat[] etats) {
+        this.etats = etats;
+    }
+
+    public void setNumberTransition(int numberTransition) {
+        this.numberTransition = numberTransition;
+    }
+
+    public void setNumberState(int numberState) {
+        this.numberState = numberState;
+    }
+
+    public void setInitState(int[] initState) {
+        this.initState = initState;
+    }
+
+    public void setFinishState(int[] finishState) {
+        this.finishState = finishState;
+    }
+
     /**Methode**/
     public void printInitState(){
         for (int element: initState){
@@ -182,6 +202,19 @@ public class Automaton {
                     etats[numberState - 1].addTransition(trans, true);
                     numberTransition++;
                 }
+
+    public void complementaire(){
+        /*if (isComplet(Automaton) == false) {
+            return Completer(Automaton);
+        }*/
+
+        for (int i = 0; i < numberState; i++) {
+            if (etats[i].getFinish()){
+                etats[i].setFinish(false);
+                System.out.println("ça marche");
+            } else{
+                etats[i].setFinish(true);
+                System.out.println("ça marche");
             }
         }
     }
