@@ -84,6 +84,7 @@ public class Determinise {
                                         k++;
                                     }
                                     if (!equals ){
+                                        AFD.setNumberState(AFD.getNumberState()+1);
                                         supp_double.add(new_out[j]);
                                     }
                                 }
