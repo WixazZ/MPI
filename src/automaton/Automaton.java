@@ -260,4 +260,22 @@ public class Automaton {
 		return true;
 	}
 
+    public void affichage() {
+    	System.out.println(numberAlphabet);
+    	System.out.println(numberState);
+    	System.out.print(initState.length);
+    	for (int i=0;i<numberState;i++) {
+    		System.out.print(" "+initState[i]);
+    	}
+    	System.out.print("\n"+finishState.length);
+    	for (int x=0;x<numberState;x++) {
+    		System.out.print(" "+finishState[x]);
+    	}
+    	System.out.println("\n"+numberTransition);
+    	for(int i = 0; i < numberState; i++){
+            for(int j = 0; j < etats[i].getIndexOut(); j++){
+                System.out.println(etats[i].getOut()[j].getStart().getName() + etats[i].getOut()[j].getWord() + etats[i].getOut()[j].getArrive().getName());
+            }
+        }
+    }
 }
