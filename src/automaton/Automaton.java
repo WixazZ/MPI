@@ -247,4 +247,17 @@ public class Automaton {
             System.out.println("L'automate n'est pas complet car il y a plus de transition que d'�tat");
             return false;}
     }
+    
+    public boolean isAsync() {
+		for (int i=0;i<numberState;i++) {
+			for(int j=0;j<etats[i].getIndexOut();j++) {
+				char symbole=etats[i].getOut()[j].getWord();
+				if (symbole=='*') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 }
