@@ -20,7 +20,7 @@ public class Menu {
 
             path1 += str;
             path1 += ".txt";
-            System.out.println("/DEBUG/ path = " + path1);
+            //System.out.println("/DEBUG/ path = " + path1);
             return path1;
 
         //}

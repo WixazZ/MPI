@@ -14,7 +14,7 @@ public class test$ {
         boolean run = false;
         while (!run) {
             String path2 = Menu.choixmenu();
-            System.out.println("/DEBUG/ path2 = " + path2);
+            //System.out.println("/DEBUG/ path2 = " + path2);
             File fichier = new File(path2);
             Scanner lecteur = new Scanner(fichier);
 
