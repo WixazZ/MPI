@@ -249,11 +249,4 @@ public class Automaton {
     }
 
 
-    /**Elimination epsilon */
-    public void eliminationEpsilon(){
-        for(int i = 0; i < numberState; i++){
-
-            
-        }
-    }
 }

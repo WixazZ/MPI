@@ -136,16 +136,29 @@ public class Etat {
         return etat;
     }
 
-    /**Elimination Epsilon */
-    public void eliminationEpsilon(){
-
-        for(int i = 0; i < indexOut; i++){//Parcours des différentes Transition
-            if(out[i].getWord() == ' '){
-                for(int j = 0; j < out[i].getArrive().getIndexOut(); j++){
-
-                    
-                }
+    /**Epsilon */
+    public Etat[] parcoursEpsilon(char word){
+        Etat[] etats = new Etat[0];
+        int length = 0;
+        for(int i = 0; i < out.length; i++){
+            if (out[i].getWord() == word){
+                etats = Arrays.copyOf(etats, length + 1);
+                etats[length] = out[i].getArrive();
+                length++;
+            } else if(out[i].getWord() == word){
+                etats = mergeEtatTab(etats, parcoursEpsilon(word));
             }
         }
+        return etats;
+    }
+
+    public Etat[] mergeEtatTab(Etat[] first, Etat[] second){
+        firstLength = first.length;
+        secondLength = second.length;
+        first = Arrays.copyOf(first, firstLength + secondLength);
+        for(int i = 0; i < secondLength; i++){
+            first[i + firstLength] = second[i];
+        }
+        return first;
     }
 }
