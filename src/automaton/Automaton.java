@@ -5,7 +5,7 @@ import java.util.*;
 public class Automaton {
 
     //Nombre de mot dans l'alphabet
-    private final int numberAlphabet;
+    private int numberAlphabet;
 
     //nombre d'état
     private int numberState;
@@ -23,6 +23,10 @@ public class Automaton {
     private Etat[] etats;
 
     /**Contructeur**/
+    public Automaton(){
+
+    }
+
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){
         this.numberAlphabet = numberAlphabet;
         this.numberState = numberState;

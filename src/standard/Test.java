@@ -19,7 +19,7 @@ public class Test {
         stand.standardiser();
 
         System.out.println("**********************STANDARDISER**********************\n");
-        stand.getAFD().printAutomate();
+        stand.getAF().printAutomate();
         //autom.complementaire();
     }
 

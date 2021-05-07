@@ -10,15 +10,19 @@ import java.util.Scanner;
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 
-        File fichier = new File("ressource/automate5.txt");
+        File fichier = new File("ressource/automate4.txt");
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
 
         autom.printAutomate();
-
+        System.out.println("**********************DETERMINISER**********************\n");
         Determinise deter = new Determinise(autom);
-        System.out.println(deter.getisDeterministe());
+        deter.isDeterministe();
+
+        deter.determiniser();
+
+        deter.getAFD().printAutomate();
 
     }
 }

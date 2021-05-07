@@ -6,17 +6,17 @@ import java.util.*;
 public class Standard {
 
     private boolean isStandard;
-    private final Automaton AFD;
+    private final Automaton AF;
 
     public Standard(Automaton autom){
-        this.AFD = autom;
+        this.AF = autom;
     }
 
     public void isStandard(){
-        if (AFD.getInitState().length == 1){
-            int[] init_list = AFD.getInitState();
+        if (AF.getInitState().length == 1){
+            int[] init_list = AF.getInitState();
             int init = init_list[0];
-            Etat[] etats = AFD.getEtats();
+            Etat[] etats = AF.getEtats();
             int i = 0;
             Etat etat;
             Transition[] trans;
@@ -42,35 +42,34 @@ public class Standard {
 
     public void standardiser() {
         //SI PLUSIEURS ETATS INITIALS
-        int numberStateIfReturn = AFD.getEtats()[AFD.getInitState()[0]].getName();
-        if (AFD.getInitState().length != 1) {
-
+        int numberStateIfReturn = AF.getEtats()[AF.getInitState()[0]].getName();
+        if (AF.getInitState().length != 1) {
             //SUPPRESSION ET RASSEMBLEMENT DES INITS
 
-            Transition[] trans_in = AFD.getEtats()[AFD.getInitState()[0]].getIn();
+            Transition[] trans_in = AF.getEtats()[AF.getInitState()[0]].getIn();
 
-            Transition[] trans_out = AFD.getEtats()[AFD.getInitState()[0]].getOut();
+            Transition[] trans_out = AF.getEtats()[AF.getInitState()[0]].getOut();
 
-            for (Etat elem : AFD.getEtats()) {
+            for (Etat elem : AF.getEtats()) {
                 if(elem.getName()> numberStateIfReturn){
                     numberStateIfReturn = elem.getName();
                 }
             }
             numberStateIfReturn++;
 
-            int modif_numberState = AFD.getNumberState();
+            int modif_numberState = AF.getNumberState();
 
             boolean initIsFinish = false;
 
-            for (int i = 1; i < AFD.getInitState().length; i++) {
+            for (int i = 1; i < AF.getInitState().length; i++) {
 
                 int k = 0;
                 while(trans_in[k] !=null){
                     k++;
                 }
-                for (int j = 0; j < AFD.getEtats()[AFD.getInitState()[i]].getIn().length; j++) {
-                    if(k < AFD.getNumberTransition()){
-                        trans_in[k] = AFD.getEtats()[AFD.getInitState()[i]].getIn()[j];
+                for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getIn().length; j++) {
+                    if(k < AF.getNumberTransition()){
+                        trans_in[k] = AF.getEtats()[AF.getInitState()[i]].getIn()[j];
                         k++;
                     }
                 }
@@ -79,31 +78,31 @@ public class Standard {
                 while(trans_out[k] !=null){
                     k++;
                 }
-                for (int j = 0; j < AFD.getEtats()[AFD.getInitState()[i]].getOut().length; j++) {
-                    if(k < AFD.getNumberTransition()) {
-                        trans_out[k] = AFD.getEtats()[AFD.getInitState()[i]].getOut()[j];
+                for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getOut().length; j++) {
+                    if(k < AF.getNumberTransition()) {
+                        trans_out[k] = AF.getEtats()[AF.getInitState()[i]].getOut()[j];
                         k++;
                     }
                 }
 
-                AFD.getEtats()[AFD.getInitState()[0]].setIndexIn(AFD.getEtats()[AFD.getInitState()[0]].getIndexIn() + AFD.getEtats()[AFD.getInitState()[i]].getIndexIn());
-                AFD.getEtats()[AFD.getInitState()[0]].setIndexOut(AFD.getEtats()[AFD.getInitState()[0]].getIndexOut() + AFD.getEtats()[AFD.getInitState()[i]].getIndexOut());
+                AF.getEtats()[AF.getInitState()[0]].setIndexIn(AF.getEtats()[AF.getInitState()[0]].getIndexIn() + AF.getEtats()[AF.getInitState()[i]].getIndexIn());
+                AF.getEtats()[AF.getInitState()[0]].setIndexOut(AF.getEtats()[AF.getInitState()[0]].getIndexOut() + AF.getEtats()[AF.getInitState()[i]].getIndexOut());
 
-                if(!initIsFinish && AFD.getEtats()[AFD.getInitState()[i]].getFinish()){
+                if(!initIsFinish && AF.getEtats()[AF.getInitState()[i]].getFinish()){
                     initIsFinish = true;
                 }
                 modif_numberState--;
             }
             if(initIsFinish){
-                AFD.getEtats()[AFD.getInitState()[0]].setFinish(true);
+                AF.getEtats()[AF.getInitState()[0]].setFinish(true);
             }
             Etat[] reetat = new Etat[modif_numberState];
             int ite = 0;
             int k = 0;
             List<Integer> etatSupr = new ArrayList<>();
-            while (ite < AFD.getNumberState()){
-                if(AFD.getInitState()[0] == ite || !AFD.getEtats()[ite].getInit()){
-                    reetat[k] = AFD.getEtats()[ite];
+            while (ite < AF.getNumberState()){
+                if(AF.getInitState()[0] == ite || !AF.getEtats()[ite].getInit()){
+                    reetat[k] = AF.getEtats()[ite];
                     k++;
                 }else{
                     etatSupr.add(ite);
@@ -111,75 +110,74 @@ public class Standard {
                 ite++;
 
             }
-            AFD.setNumberState(modif_numberState);
-            AFD.setEtats(reetat);
+            AF.setNumberState(modif_numberState);
+            AF.setEtats(reetat);
 
             int[] init = new int[1];
-            init[0] = AFD.getInitState()[0];
-            AFD.setInitState(init);
+            init[0] = AF.getInitState()[0];
+            AF.setInitState(init);
 
-            for (int i = 0; i < AFD.getEtats().length; i++) {
+            for (int i = 0; i < AF.getEtats().length; i++) {
 
                 //parcours in de chaque état
-                for (int j = 0; j < AFD.getEtats()[i].getIn().length; j++) {
+                for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
                     //Si in contient un état supprimer le supprime et le remplace par l'unique init
-                    if(AFD.getEtats()[i].getIn()[j] != null && etatSupr.contains(AFD.getEtats()[i].getIn()[j].getStart().getName())){
-                        AFD.getEtats()[i].getIn()[j].setStart(AFD.getEtats()[AFD.getInitState()[0]]);
+                    if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getStart().getName())){
+                        AF.getEtats()[i].getIn()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
                     }
-                    if(AFD.getEtats()[i].getIn()[j] != null && etatSupr.contains(AFD.getEtats()[i].getIn()[j].getArrive().getName())){
-                        AFD.getEtats()[i].getIn()[j].setArrive(AFD.getEtats()[AFD.getInitState()[0]]);
+                    if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getArrive().getName())){
+                        AF.getEtats()[i].getIn()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
                     }
                 }
 
                 //parcours out de chaque état
-                for (int j = 0; j < AFD.getEtats()[i].getOut().length; j++) {
+                for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
                     //Si in contient un état supprimer le supprime et le remplace par l'unique init
-                    if(AFD.getEtats()[i].getOut()[j] != null && etatSupr.contains(AFD.getEtats()[i].getOut()[j].getStart().getName())){
-                        AFD.getEtats()[i].getOut()[j].setStart(AFD.getEtats()[AFD.getInitState()[0]]);
+                    if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getStart().getName())){
+                        AF.getEtats()[i].getOut()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
                     }
-                    if(AFD.getEtats()[i].getOut()[j] != null && etatSupr.contains(AFD.getEtats()[i].getOut()[j].getArrive().getName())){
-                        AFD.getEtats()[i].getOut()[j].setArrive(AFD.getEtats()[AFD.getInitState()[0]]);
+                    if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getArrive().getName())){
+                        AF.getEtats()[i].getOut()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
                     }
                 }
 
                 //supprimer les transitions en double
-                Transition[] in = new Transition[AFD.getNumberTransition()];
+                Transition[] in = new Transition[AF.getNumberTransition()];
                 int indexin = 0;
-                AFD.getEtats()[i].setIndexIn(0);
+                AF.getEtats()[i].setIndexIn(0);
 
-                Transition[] out = new Transition[AFD.getNumberTransition()];
+                Transition[] out = new Transition[AF.getNumberTransition()];
                 int indexout = 0;
-                AFD.getEtats()[i].setIndexIn(0);
-                for (int j = 0; j < AFD.getEtats()[i].getIn().length; j++) {
-                    if (AFD.getEtats()[i].getIn()[j] != null && contient(in, AFD.getEtats()[i].getIn()[j])){
-                        in[indexin] = AFD.getEtats()[i].getIn()[j];
+                AF.getEtats()[i].setIndexIn(0);
+                for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
+                    if (AF.getEtats()[i].getIn()[j] != null && contient(in, AF.getEtats()[i].getIn()[j])){
+                        in[indexin] = AF.getEtats()[i].getIn()[j];
                         indexin++;
-                        AFD.getEtats()[i].setIndexIn(indexin);
+                        AF.getEtats()[i].setIndexIn(indexin);
                     }
                 }
 
-                for (int j = 0; j < AFD.getEtats()[i].getOut().length; j++) {
-                    if (AFD.getEtats()[i].getOut()[j] != null && contient(out, AFD.getEtats()[i].getOut()[j])){
-                        out[indexout] = AFD.getEtats()[i].getOut()[j];
+                for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
+                    if (AF.getEtats()[i].getOut()[j] != null && contient(out, AF.getEtats()[i].getOut()[j])){
+                        out[indexout] = AF.getEtats()[i].getOut()[j];
                         indexout++;
-                        AFD.getEtats()[i].setIndexOut(indexout);
+                        AF.getEtats()[i].setIndexOut(indexout);
                     }
                 }
-                AFD.getEtats()[i].setIn(in);
-                AFD.getEtats()[i].setOut(out);
+                AF.getEtats()[i].setIn(in);
+                AF.getEtats()[i].setOut(out);
 
             }
         }
-
         //SI TRANSITION ENTRANTE VERS L ETAT INITIAL
-        if(AFD.getEtats()[AFD.getInitState()[0]].getIn() != null){
-            int numberTransition = AFD.getNumberTransition()+ AFD.getEtats()[AFD.getInitState()[0]].getIndexIn()+AFD.getEtats()[AFD.getInitState()[0]].getIndexOut();
+        if(AF.getEtats()[AF.getInitState()[0]].getIn() != null){
+            int numberTransition = AF.getNumberTransition()+ AF.getEtats()[AF.getInitState()[0]].getIndexIn()+AF.getEtats()[AF.getInitState()[0]].getIndexOut();
 
-            Etat initi = AFD.getEtats()[AFD.getInitState()[0]].copie();
-            AFD.setNumberTransition(numberTransition);
+            Etat initi = AF.getEtats()[AF.getInitState()[0]].copie();
+            AF.setNumberTransition(numberTransition);
             initi.setName(numberStateIfReturn);
-            AFD.getEtats()[AFD.getInitState()[0]].setInit(false);
-            AFD.getEtats()[AFD.getInitState()[0]].setFinish(false);
+            AF.getEtats()[AF.getInitState()[0]].setInit(false);
+            AF.getEtats()[AF.getInitState()[0]].setFinish(false);
 
             for (int i = 0; i < initi.getIndexIn(); i++) {
                 initi.getIn()[i].setStart(initi);
@@ -187,15 +185,15 @@ public class Standard {
             for (int i = 0; i < initi.getIndexOut(); i++) {
                 initi.getOut()[i].setStart(initi);
             }
-            Etat[] newStates = new Etat[AFD.getEtats().length+1];
-            for (int i = 0; i < AFD.getEtats().length+1; i++) {
+            Etat[] newStates = new Etat[AF.getEtats().length+1];
+            for (int i = 0; i < AF.getEtats().length+1; i++) {
                 if(i == 0){
                     newStates[i] = initi;
                 } else {
-                    newStates[i] = AFD.getEtats()[i-1];
+                    newStates[i] = AF.getEtats()[i-1];
                 }
             }
-            AFD.setEtats(newStates);
+            AF.setEtats(newStates);
             majInitFinishState();
         }
 
@@ -211,17 +209,17 @@ public class Standard {
     }
 
     public void majInitFinishState(){
-        int[] tempInit = new int[AFD.getEtats().length];
-        int[] tempFinish = new int[AFD.getEtats().length];
+        int[] tempInit = new int[AF.getEtats().length];
+        int[] tempFinish = new int[AF.getEtats().length];
         int numberInitState = 0;
         int numberFinishState = 0;
-        for (int i = 0; i < AFD.getEtats().length; i++) {
-            if(AFD.getEtats()[i].getInit()){
-                tempInit[numberInitState] = AFD.getEtats()[i].getName();
+        for (int i = 0; i < AF.getEtats().length; i++) {
+            if(AF.getEtats()[i].getInit()){
+                tempInit[numberInitState] = AF.getEtats()[i].getName();
                 numberInitState++;
             }
-            if(AFD.getEtats()[i].getFinish()){
-                tempFinish[numberFinishState] = AFD.getEtats()[i].getName();
+            if(AF.getEtats()[i].getFinish()){
+                tempFinish[numberFinishState] = AF.getEtats()[i].getName();
                 numberFinishState++;
             }
         }
@@ -229,13 +227,13 @@ public class Standard {
         int[] finish = new int[numberFinishState];
         System.arraycopy(tempInit, 0, init, 0, numberInitState);
         System.arraycopy(tempFinish, 0, finish, 0, numberFinishState);
-        AFD.setInitState(init);
-        AFD.setFinishState(finish);
+        AF.setInitState(init);
+        AF.setFinishState(finish);
     }
 
 
-    public Automaton getAFD() {
-        return AFD;
+    public Automaton getAF() {
+        return AF;
     }
 
     public boolean getIsStandard() {
