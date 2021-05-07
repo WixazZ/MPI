@@ -79,6 +79,14 @@ public class Etat {
         this.finish = finish;
     }
 
+    public void setIndexIn(int indexIn) {
+        this.indexIn = indexIn;
+    }
+
+    public void setIndexOut(int indexOut) {
+        this.indexOut = indexOut;
+    }
+
     /**Methode**/
     public void printEtat(){
         System.out.println("*********************************************");
