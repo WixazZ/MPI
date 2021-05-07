@@ -1,6 +1,5 @@
 package minimisation;
 
-import java.io.*;
 import java.util.*;
 import automaton.*;
 
