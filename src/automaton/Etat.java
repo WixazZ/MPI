@@ -135,4 +135,17 @@ public class Etat {
 
         return etat;
     }
+
+    /**Elimination Epsilon */
+    public void eliminationEpsilon(){
+
+        for(int i = 0; i < indexOut; i++){//Parcours des différentes Transition
+            if(out[i].getWord() == ' '){
+                for(int j = 0; j < out[i].getArrive().getIndexOut(); j++){
+
+                    
+                }
+            }
+        }
+    }
 }

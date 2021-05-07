@@ -247,4 +247,13 @@ public class Automaton {
             System.out.println("L'automate n'est pas complet car il y a plus de transition que d'�tat");
             return false;}
     }
+
+
+    /**Elimination epsilon */
+    public void eliminationEpsilon(){
+        for(int i = 0; i < numberState; i++){
+
+            
+        }
+    }
 }
