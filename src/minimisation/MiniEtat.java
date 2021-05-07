@@ -58,10 +58,10 @@ public class MiniEtat {
             alphabet[i] = (char) ('a' + i);
         }
 
-        for(int i = 0; i < etat.getIndexOut(); i++){
+        for(int i = 0; i < etat.getIndexOut(); i++){//Parcours des différentes transitions
             boolean created = false;
             int j = 0;
-            while(j < etat.getIndexOut() && !created){
+            while(j < etat.getIndexOut() && !created){//Recherche de la transition avec le bon mot
 
                 if(etat.getOut()[j].getWord() != alphabet[i]){//Recherche de la transition correspond au mot
                     for(int k = 0; k < lengthGroupes && !created; k++){//Parcours des différents MiniGroupp
@@ -76,6 +76,30 @@ public class MiniEtat {
                     }
                 }
                 j++;
+            }
+        }
+    }
+
+    public void refreshTransition(MiniGroup[] groupes, int lengthGroupes){
+        for(int i = 0; i < etat.getIndexOut(); i++){//Parcours des transitions du MiniEtat
+            transition[i].setDepart(this);
+            for(int j = 0; j < lengthGroupes; j++){//Parcours des MiniGroups
+                boolean same = true;
+                for(int k = 0; k < transition[i].getArrive().getMiniGroup().getName().length() && same; k++){//Parcours des lettres des noms
+                    same = groupes[j].getName().charAt(k) == transition[i].getArrive().getMiniGroup().getName().charAt(k);
+                }
+                if(same){
+                    boolean find = false;
+                    int k = 0;
+                    while(k < groupes[j].getIndexMiniEtats() && !find){
+                        find = groupes[j].getMiniEtats()[k].etat == transition[i].getArrive().etat;
+                        k++;
+                    }
+                    if(find){
+                        k--;
+                        transition[i].setArrive(groupes[j].getMiniEtats()[k]);
+                    }
+                }
             }
         }
     }

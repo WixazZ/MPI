@@ -1,5 +1,6 @@
 package minimisation;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.util.Arrays;
 
 
@@ -97,6 +98,12 @@ public class MiniGroup {
     public void makeTransition(MiniGroup[] groupes, int lengthGroupes){
         for(int i = 0; i < indexMiniEtats; i++){
             miniEtats[i].makeTransition(groupes, lengthGroupes);
+        }
+    }
+
+    public void refreshTransition(MiniGroup[] groupes, int lengthGroupes){
+        for(int i = 0; i < indexMiniEtats; i++){
+            miniEtats[i].refreshTransition(groupes, lengthGroupes);
         }
     }
 }

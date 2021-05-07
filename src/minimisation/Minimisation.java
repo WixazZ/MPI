@@ -22,11 +22,57 @@ public class Minimisation {
 
             int newLength = newGroups.length;
             for(int i = 0; i < newLength; i++){
-                newGroups[i].makeTransition(newGroups, newLength);
+                newGroups[i].refreshTransition(newGroups, newLength);
             }
             minimized = isMinimized(groups, newGroups);
+            groups = newGroups;
         }
 
+        return miniToAutomaton(groups);
+    }
+
+    public Automaton miniToAutomaton(MiniGroup[] groups){
+
+        Automaton automate = new Automaton();
+        automate.setNumberAlphabet(groups[0].getMiniEtats()[0].getEtat().getIndexOut());
+        automate.setNumberState(groups.length);
+        automate.setNumberTransition(automate.getNumberAlphabet() * automate.getNumberState());
+
+        Etat[] etats = new Etat[automate.getNumberState()];
+
+        for(int i = 0; i < groups.length; i++){//Parcours des MiniGroups
+            boolean init = false;
+            for(int j = 0; j < groups[i].getIndexMiniEtats() && !init; j++){
+                init = groups[i].getMiniEtats()[j].getEtat().getInit();
+            }
+            etats[i] = new Etat(i, init, groups[i].getFinish(), 0, automate.getNumberAlphabet());
+        }
+
+        int numberInit = 0;
+        int[] initState = new int[0];
+        
+        int numberFinish = 0;
+        int[] finishState = new int[0];
+
+        for(int i = 0; i < automate.getNumberState(); i++){
+            if(etats[i].getInit()){
+                initState = Arrays.copyOf(initState, numberInit);
+                initState[numberInit] = etats[i].getName();
+                numberInit++;
+            }
+
+            if(etats[i].getFinish()){
+                finishState = Arrays.copyOf(finishState, numberFinish);
+                finishState[numberFinish] = etats[i].getName();
+                numberFinish++;
+            }
+        }
+
+        automate.setInitState(initState);
+        automate.setFinishState(finishState);
+        automate.setEtats(etats);
+
+        return automate;
     }
 
     public MiniGroup[] appendMiniGroupArray(MiniGroup newGroups[], MiniGroup tempGroup[]){
