@@ -1,28 +1,29 @@
 package menu;
+import java.util.*;
 
 public class Menu {
+    public static String choixmenu(){
 
-    private boolean run = false;
-    public programRun(boolean run){
-        while (run != true) {
+        /*public Automaton programRun(boolean run) throws FileNotFoundException {*/
+
+            String path1 = "ressource/automate/R1-";
+            Scanner choix = new Scanner(System.in);
             System.out.println("Veuillez entrer le numéro de l'automate que vous souhaitez utiliser et appuyez sur entrée");
-            switch (choix) {
-                case 1:
-
-                    break;
-                case 2:
-                    // Perform "encrypt number" case.
-                    break;
-                case 3:
-                    // Perform "decrypt number" case.
-                    break;
-                case 4:
-                    // Perform "quit" case.
-                    break;
-                default:
-                    // The user input an unexpected choice.
+            int str = choix.nextInt();
+            System.out.println("Vous avez saisi : " + str);
+            while (str <1 || str>45){
+                System.out.println("Veuillez entrer un nombre entre 1 et 45");
+                System.out.println("Veuillez entrer le numéro de l'automate que vous souhaitez utiliser et appuyez sur entrée");
+                str = choix.nextInt();
+                System.out.println("Vous avez saisi : " + str);
             }
 
-        }
+            path1 += str;
+            path1 += ".txt";
+            System.out.println("/DEBUG/ path = " + path1);
+            return path1;
+
+        //}
     }
 }
+
