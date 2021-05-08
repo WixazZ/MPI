@@ -23,6 +23,15 @@ public class Automaton {
     private Etat[] etats;
 
     /**Contructeur**/
+    public Automaton(){
+        this.numberAlphabet = 0;
+        this.numberState = 0;
+        this.initState = new int[0];
+        this.finishState = new int[0];
+        this.numberTransition = 0;
+        this.etats = new Etat[0];
+    }
+
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){
         this.numberAlphabet = numberAlphabet;
         this.numberState = numberState;
@@ -111,24 +120,28 @@ public class Automaton {
         return etats;
     }
 
-    public void setEtats(Etat[] etats) {
-        this.etats = etats;
+    public void setNumberAlphabet(int numberAlphabet){
+        this.numberAlphabet = numberAlphabet;
     }
 
-    public void setNumberTransition(int numberTransition) {
-        this.numberTransition = numberTransition;
-    }
-
-    public void setNumberState(int numberState) {
+    public void setNumberState(int numberState){
         this.numberState = numberState;
     }
 
-    public void setInitState(int[] initState) {
+    public void setInitState(int[] initState){
         this.initState = initState;
     }
 
-    public void setFinishState(int[] finishState) {
+    public void setFinishState(int[] finishState){
         this.finishState = finishState;
+    }
+
+    public void setNumberTransition(int numberTransition){
+        this.numberTransition = numberTransition;
+    }
+
+    public void setEtats(Etat[] etats){
+        this.etats = etats;
     }
 
     /**Methode**/
@@ -202,6 +215,9 @@ public class Automaton {
                     etats[numberState - 1].addTransition(trans, true);
                     numberTransition++;
                 }
+            }
+        }
+    }
 
     public void complementaire(){
         /*if (isComplet(Automaton) == false) {
@@ -220,9 +236,10 @@ public class Automaton {
     }
 
     public boolean isComplet(){
-        if(numberAlphabet * numberState < numberTransition)
+        if(numberAlphabet * numberState < numberTransition){
             System.out.println("ERREUR du is_complet");
-
+            return false;
+        }
         if (numberAlphabet * numberState == numberTransition) {
             System.out.println("L'automate est complet car tout les �tats ont une transition");
             return true;}
@@ -230,4 +247,17 @@ public class Automaton {
             System.out.println("L'automate n'est pas complet car il y a plus de transition que d'�tat");
             return false;}
     }
+    
+    public boolean isAsync() {
+		for (int i=0;i<numberState;i++) {
+			for(int j=0;j<etats[i].getIndexOut();j++) {
+				char symbole=etats[i].getOut()[j].getWord();
+				if (symbole=='*') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 }
