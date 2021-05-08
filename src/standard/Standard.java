@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Standard {
 
-    private boolean isStandard;
+    private boolean isStandard = true;
     private final Automaton AF;
 
     public Standard(Automaton autom){
@@ -33,8 +33,10 @@ public class Standard {
                         isStandard = false;
                     }
                 }
-
                 i++;
+            }
+            if(!verif){
+                isStandard =true;
             }
         }else{
             System.out.println("L'automate n'est pas standard car il contient plusieurs états initials");
@@ -45,159 +47,171 @@ public class Standard {
 
     public void standardiser() {
         //SI PLUSIEURS ETATS INITIALS
-        int numberStateIfReturn = AF.getEtats()[AF.getInitState()[0]].getName();
-        if (AF.getInitState().length != 1) {
-            //SUPPRESSION ET RASSEMBLEMENT DES INITS
+        if (!isStandard){
+            int numberStateIfReturn = AF.getEtats()[AF.getInitState()[0]].getName();
+            if (AF.getInitState().length != 1) {
+                //SUPPRESSION ET RASSEMBLEMENT DES INITS
 
-            Transition[] trans_in = AF.getEtats()[AF.getInitState()[0]].getIn();
+                Transition[] trans_in = AF.getEtats()[AF.getInitState()[0]].getIn();
 
-            Transition[] trans_out = AF.getEtats()[AF.getInitState()[0]].getOut();
+                Transition[] trans_out = AF.getEtats()[AF.getInitState()[0]].getOut();
 
-            for (Etat elem : AF.getEtats()) {
-                if(elem.getName()> numberStateIfReturn){
-                    numberStateIfReturn = elem.getName();
+                for (Etat elem : AF.getEtats()) {
+                    if(elem.getName()> numberStateIfReturn){
+                        numberStateIfReturn = elem.getName();
+                    }
                 }
-            }
-            numberStateIfReturn++;
+                numberStateIfReturn++;
 
-            int modif_numberState = AF.getNumberState();
+                int modif_numberState = AF.getNumberState();
 
-            boolean initIsFinish = false;
+                boolean initIsFinish = false;
 
-            for (int i = 1; i < AF.getInitState().length; i++) {
+                for (int i = 1; i < AF.getInitState().length; i++) {
 
+                    int lengthTransOut = trans_out.length;
+                    int lengthTransIn = trans_in.length;
+                    int k = 0;
+                    while(k < lengthTransIn && trans_in[k] !=null){
+                        k++;
+                    }
+                    for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getIn().length; j++) {
+                        if(k < AF.getNumberTransition()){
+                            if(k >= lengthTransIn){
+                                trans_in = Arrays.copyOf(trans_in, lengthTransIn+ 1);
+                                lengthTransIn++;
+                            }
+                            trans_in[k] = AF.getEtats()[AF.getInitState()[i]].getIn()[j];
+                            k++;
+                        }
+                    }
+
+                    k = 0;
+                    while(k < lengthTransOut && trans_out[k] !=null){
+                        k++;
+                    }
+                    for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getOut().length; j++) {
+                        if(k < AF.getNumberTransition()) {
+                            if(k >= lengthTransOut){
+                                trans_out = Arrays.copyOf(trans_out, lengthTransOut + 1);
+                                lengthTransOut++;
+                            }
+                            trans_out[k] = AF.getEtats()[AF.getInitState()[i]].getOut()[j];
+                            k++;
+                        }
+                    }
+
+                    AF.getEtats()[AF.getInitState()[0]].setIndexIn(AF.getEtats()[AF.getInitState()[0]].getIndexIn() + AF.getEtats()[AF.getInitState()[i]].getIndexIn());
+                    AF.getEtats()[AF.getInitState()[0]].setIndexOut(AF.getEtats()[AF.getInitState()[0]].getIndexOut() + AF.getEtats()[AF.getInitState()[i]].getIndexOut());
+
+                    if(!initIsFinish && AF.getEtats()[AF.getInitState()[i]].getFinish()){
+                        initIsFinish = true;
+                    }
+                    modif_numberState--;
+                }
+                if(initIsFinish){
+                    AF.getEtats()[AF.getInitState()[0]].setFinish(true);
+                }
+                Etat[] reetat = new Etat[modif_numberState];
+                int ite = 0;
                 int k = 0;
-                while(trans_in[k] !=null){
-                    k++;
-                }
-                for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getIn().length; j++) {
-                    if(k < AF.getNumberTransition()){
-                        trans_in[k] = AF.getEtats()[AF.getInitState()[i]].getIn()[j];
+                List<Integer> etatSupr = new ArrayList<>();
+                while (ite < AF.getNumberState()){
+                    if(AF.getInitState()[0] == ite || !AF.getEtats()[ite].getInit()){
+                        reetat[k] = AF.getEtats()[ite];
                         k++;
+                    }else{
+                        etatSupr.add(ite);
                     }
-                }
+                    ite++;
 
-                k = 0;
-                while(trans_out[k] !=null){
-                    k++;
                 }
-                for (int j = 0; j < AF.getEtats()[AF.getInitState()[i]].getOut().length; j++) {
-                    if(k < AF.getNumberTransition()) {
-                        trans_out[k] = AF.getEtats()[AF.getInitState()[i]].getOut()[j];
-                        k++;
+                AF.setNumberState(modif_numberState);
+                AF.setEtats(reetat);
+
+                int[] init = new int[1];
+                init[0] = AF.getInitState()[0];
+                AF.setInitState(init);
+
+                for (int i = 0; i < AF.getEtats().length; i++) {
+
+                    //parcours in de chaque état
+                    for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
+                        //Si in contient un état supprimer le supprime et le remplace par l'unique init
+                        if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getStart().getName())){
+                            AF.getEtats()[i].getIn()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
+                        }
+                        if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getArrive().getName())){
+                            AF.getEtats()[i].getIn()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
+                        }
                     }
-                }
 
-                AF.getEtats()[AF.getInitState()[0]].setIndexIn(AF.getEtats()[AF.getInitState()[0]].getIndexIn() + AF.getEtats()[AF.getInitState()[i]].getIndexIn());
-                AF.getEtats()[AF.getInitState()[0]].setIndexOut(AF.getEtats()[AF.getInitState()[0]].getIndexOut() + AF.getEtats()[AF.getInitState()[i]].getIndexOut());
-
-                if(!initIsFinish && AF.getEtats()[AF.getInitState()[i]].getFinish()){
-                    initIsFinish = true;
-                }
-                modif_numberState--;
-            }
-            if(initIsFinish){
-                AF.getEtats()[AF.getInitState()[0]].setFinish(true);
-            }
-            Etat[] reetat = new Etat[modif_numberState];
-            int ite = 0;
-            int k = 0;
-            List<Integer> etatSupr = new ArrayList<>();
-            while (ite < AF.getNumberState()){
-                if(AF.getInitState()[0] == ite || !AF.getEtats()[ite].getInit()){
-                    reetat[k] = AF.getEtats()[ite];
-                    k++;
-                }else{
-                    etatSupr.add(ite);
-                }
-                ite++;
-
-            }
-            AF.setNumberState(modif_numberState);
-            AF.setEtats(reetat);
-
-            int[] init = new int[1];
-            init[0] = AF.getInitState()[0];
-            AF.setInitState(init);
-
-            for (int i = 0; i < AF.getEtats().length; i++) {
-
-                //parcours in de chaque état
-                for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
-                    //Si in contient un état supprimer le supprime et le remplace par l'unique init
-                    if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getStart().getName())){
-                        AF.getEtats()[i].getIn()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
+                    //parcours out de chaque état
+                    for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
+                        //Si in contient un état supprimer le supprime et le remplace par l'unique init
+                        if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getStart().getName())){
+                            AF.getEtats()[i].getOut()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
+                        }
+                        if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getArrive().getName())){
+                            AF.getEtats()[i].getOut()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
+                        }
                     }
-                    if(AF.getEtats()[i].getIn()[j] != null && etatSupr.contains(AF.getEtats()[i].getIn()[j].getArrive().getName())){
-                        AF.getEtats()[i].getIn()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
+
+                    //supprimer les transitions en double
+                    Transition[] in = new Transition[AF.getNumberTransition()];
+                    int indexin = 0;
+                    AF.getEtats()[i].setIndexIn(0);
+
+                    Transition[] out = new Transition[AF.getNumberTransition()];
+                    int indexout = 0;
+                    AF.getEtats()[i].setIndexIn(0);
+                    for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
+                        if (AF.getEtats()[i].getIn()[j] != null && contient(in, AF.getEtats()[i].getIn()[j])){
+                            in[indexin] = AF.getEtats()[i].getIn()[j];
+                            indexin++;
+                            AF.getEtats()[i].setIndexIn(indexin);
+                        }
                     }
-                }
 
-                //parcours out de chaque état
-                for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
-                    //Si in contient un état supprimer le supprime et le remplace par l'unique init
-                    if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getStart().getName())){
-                        AF.getEtats()[i].getOut()[j].setStart(AF.getEtats()[AF.getInitState()[0]]);
+                    for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
+                        if (AF.getEtats()[i].getOut()[j] != null && contient(out, AF.getEtats()[i].getOut()[j])){
+                            out[indexout] = AF.getEtats()[i].getOut()[j];
+                            indexout++;
+                            AF.getEtats()[i].setIndexOut(indexout);
+                        }
                     }
-                    if(AF.getEtats()[i].getOut()[j] != null && etatSupr.contains(AF.getEtats()[i].getOut()[j].getArrive().getName())){
-                        AF.getEtats()[i].getOut()[j].setArrive(AF.getEtats()[AF.getInitState()[0]]);
-                    }
-                }
+                    AF.getEtats()[i].setIn(in);
+                    AF.getEtats()[i].setOut(out);
 
-                //supprimer les transitions en double
-                Transition[] in = new Transition[AF.getNumberTransition()];
-                int indexin = 0;
-                AF.getEtats()[i].setIndexIn(0);
-
-                Transition[] out = new Transition[AF.getNumberTransition()];
-                int indexout = 0;
-                AF.getEtats()[i].setIndexIn(0);
-                for (int j = 0; j < AF.getEtats()[i].getIn().length; j++) {
-                    if (AF.getEtats()[i].getIn()[j] != null && contient(in, AF.getEtats()[i].getIn()[j])){
-                        in[indexin] = AF.getEtats()[i].getIn()[j];
-                        indexin++;
-                        AF.getEtats()[i].setIndexIn(indexin);
-                    }
-                }
-
-                for (int j = 0; j < AF.getEtats()[i].getOut().length; j++) {
-                    if (AF.getEtats()[i].getOut()[j] != null && contient(out, AF.getEtats()[i].getOut()[j])){
-                        out[indexout] = AF.getEtats()[i].getOut()[j];
-                        indexout++;
-                        AF.getEtats()[i].setIndexOut(indexout);
-                    }
-                }
-                AF.getEtats()[i].setIn(in);
-                AF.getEtats()[i].setOut(out);
-
-            }
-        }
-        //SI TRANSITION ENTRANTE VERS L ETAT INITIAL
-        if(AF.getEtats()[AF.getInitState()[0]].getIn() != null){
-            int numberTransition = AF.getNumberTransition()+ AF.getEtats()[AF.getInitState()[0]].getIndexIn()+AF.getEtats()[AF.getInitState()[0]].getIndexOut();
-
-            Etat initi = AF.getEtats()[AF.getInitState()[0]].copie();
-            AF.setNumberTransition(numberTransition);
-            initi.setName(numberStateIfReturn);
-            AF.getEtats()[AF.getInitState()[0]].setInit(false);
-            AF.getEtats()[AF.getInitState()[0]].setFinish(false);
-
-            for (int i = 0; i < initi.getIndexIn(); i++) {
-                initi.getIn()[i].setStart(initi);
-            }
-            for (int i = 0; i < initi.getIndexOut(); i++) {
-                initi.getOut()[i].setStart(initi);
-            }
-            Etat[] newStates = new Etat[AF.getEtats().length+1];
-            for (int i = 0; i < AF.getEtats().length+1; i++) {
-                if(i == 0){
-                    newStates[i] = initi;
-                } else {
-                    newStates[i] = AF.getEtats()[i-1];
                 }
             }
-            AF.setEtats(newStates);
-            majInitFinishState();
+            //SI TRANSITION ENTRANTE VERS L ETAT INITIAL
+            if(AF.getEtats()[AF.getInitState()[0]].getIn() != null){
+                int numberTransition = AF.getNumberTransition()+ AF.getEtats()[AF.getInitState()[0]].getIndexIn()+AF.getEtats()[AF.getInitState()[0]].getIndexOut();
+
+                Etat initi = AF.getEtats()[AF.getInitState()[0]].copie();
+                AF.setNumberTransition(numberTransition);
+                initi.setName(numberStateIfReturn);
+                AF.getEtats()[AF.getInitState()[0]].setInit(false);
+                AF.getEtats()[AF.getInitState()[0]].setFinish(false);
+
+                for (int i = 0; i < initi.getIndexIn(); i++) {
+                    initi.getIn()[i].setStart(initi);
+                }
+                for (int i = 0; i < initi.getIndexOut(); i++) {
+                    initi.getOut()[i].setStart(initi);
+                }
+                Etat[] newStates = new Etat[AF.getEtats().length+1];
+                for (int i = 0; i < AF.getEtats().length+1; i++) {
+                    if(i == 0){
+                        newStates[i] = initi;
+                    } else {
+                        newStates[i] = AF.getEtats()[i-1];
+                    }
+                }
+                AF.setEtats(newStates);
+                majInitFinishState();
+            }
         }
 
     }

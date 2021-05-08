@@ -11,8 +11,8 @@ import static reconnaissance.Reco.read;
 
 public class test$ {
     public static void main(String[] args) throws FileNotFoundException {
-        boolean run = false;
-        while (!run) {
+        boolean run = true;
+        while (run) {
             String path2 = Menu.choixmenu();
             //System.out.println("/DEBUG/ path2 = " + path2);
             File fichier = new File(path2);
@@ -22,7 +22,7 @@ public class test$ {
             autom.printAutomate();
             System.out.println(read("abcd", autom));
 
-            System.out.println("Voulez vous utiliser un autre automate\n 1 =oui \n 2 = non");
+            System.out.println("Voulez vous utiliser un autre automate\n 1 = oui \n 2 = non");
 
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
@@ -32,10 +32,8 @@ public class test$ {
                 scanner = new Scanner(System.in);
                 choice = scanner.nextInt();
             }
-            switch (choice) {
-                    case 1 -> run = false;
-                    case 2 -> run = true;
-
+            if (choice == 2){
+                run = false;
             }
         }
     }

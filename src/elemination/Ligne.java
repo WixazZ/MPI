@@ -39,6 +39,7 @@ public class Ligne {
         while (i < nameLength && (!init || !finish)){
             init = name[i].getInit();
             finish = name[i].getFinish();
+            i++;
         }
     }
 
@@ -87,7 +88,7 @@ public class Ligne {
     public void makeColonne(){
         for(int i = 0; i < name.length; i++){//Parcours de différent Etat concernés
             for(int j = 0; j < colonne.length; j++){//Remplissage des colonnes
-                Etat[] etats = name[i].parcoursEpsilon(colonne[i].getName());
+                Etat[] etats = name[i].parcoursEpsilon(colonne[j].getName());
                 colonne[j].setEtats(suppDoublon(mergeEtatTab(colonne[j].getEtats(), etats)));
             }
         }
@@ -97,12 +98,13 @@ public class Ligne {
         int suppG = 0;
         for(int i = 0; i < etats.length - suppG; i++){
             int supp = 0;
-            for(int j = i; j < etats.length - supp; j++){
+            for(int j = i + 1; j < etats.length - supp; j++){
                 if(etats[i].getName() == etats[j].getName()){
                     supp++;
                     suppG++;
                 }
-                etats[j] = etats[j + supp];
+                if(j + supp < etats.length)
+                    etats[j] = etats[j + supp];
             }
         }
         etats = Arrays.copyOf(etats, etats.length - suppG);

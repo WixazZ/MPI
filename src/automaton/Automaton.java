@@ -24,7 +24,9 @@ public class Automaton {
 
     /**Contructeur**/
     public Automaton(){
-
+        this.etats = new Etat[0];
+        this.initState = new int[0];
+        this.finishState = new int[0];
     }
 
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){

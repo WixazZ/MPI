@@ -26,11 +26,11 @@ public class Determinise {
         } else {
             boolean asVerify = true;
             int i = 0;
-            while(asVerify && i< AFD.getEtats().length ){
+            while(i< AFD.getEtats().length && asVerify){
                 List<Character> OutEtat = new ArrayList<>();
                 int j = 0;
                 Character NameOutEtat;
-                while(AFD.getEtats()[i].getOut()[j] != null && j < AFD.getEtats()[i].getOut().length && asVerify){
+                while(j < AFD.getEtats()[i].getOut().length &&AFD.getEtats()[i].getOut()[j] != null && asVerify){
 
                     NameOutEtat = AFD.getEtats()[i].getOut()[j].getWord();
 
@@ -72,7 +72,7 @@ public class Determinise {
 
             Automaton autom_copy = AFD.copie();
             AFD = elemination(autom_copy);
-
+            System.out.println("coucou");
 
 /*
             List<Sync_state> a_traiter = new ArrayList<>();
@@ -156,23 +156,33 @@ public class Determinise {
 
             for (int i = 1; i < AFD.getInitState().length; i++) {
 
+                int lengthTransOut = trans_out.length;
+                int lengthTransIn = trans_in.length;
                 int k = 0;
-                while(trans_in[k] !=null){
+                while(k < lengthTransIn && trans_in[k] !=null){
                     k++;
                 }
                 for (int j = 0; j < AFD.getEtats()[AFD.getInitState()[i]].getIn().length; j++) {
                     if(k < AFD.getNumberTransition()){
+                        if(k >= lengthTransIn){
+                            trans_in = Arrays.copyOf(trans_in, lengthTransIn+ 1);
+                            lengthTransIn++;
+                        }
                         trans_in[k] = AFD.getEtats()[AFD.getInitState()[i]].getIn()[j];
                         k++;
                     }
                 }
 
                 k = 0;
-                while(trans_out[k] !=null){
+                while(k < lengthTransOut && trans_out[k] !=null){
                     k++;
                 }
                 for (int j = 0; j < AFD.getEtats()[AFD.getInitState()[i]].getOut().length; j++) {
                     if(k < AFD.getNumberTransition()) {
+                        if(k >= lengthTransOut){
+                            trans_out = Arrays.copyOf(trans_out, lengthTransOut + 1);
+                            lengthTransOut++;
+                        }
                         trans_out[k] = AFD.getEtats()[AFD.getInitState()[i]].getOut()[j];
                         k++;
                     }
