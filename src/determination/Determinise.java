@@ -65,9 +65,10 @@ public class Determinise {
             }
 
 
-            /*
-            Automaton autom_copy = AFD.copie();
 
+
+            Automaton autom_copy = AFD.copie();
+/*
             List<Sync_state> a_traiter = new ArrayList<>();
 
             for (Etat p_state: AFD.getEtats()) {

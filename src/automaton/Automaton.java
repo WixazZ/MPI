@@ -135,6 +135,10 @@ public class Automaton {
         this.finishState = finishState;
     }
 
+    public void setNumberAlphabet(int numberAlphabet) {
+        this.numberAlphabet = numberAlphabet;
+    }
+
     /**Methode**/
     public void printInitState(){
         for (int element: initState){
