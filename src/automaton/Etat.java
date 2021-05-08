@@ -1,5 +1,7 @@
 package automaton;
 
+import java.util.Arrays;
+
 public class Etat {
     private int name;
     private Transition[] in;
@@ -113,9 +115,11 @@ public class Etat {
 
     public void addTransition(Transition transition, boolean inBool){
         if(inBool){
+            in = Arrays.copyOf(in, indexIn + 1);
             in[indexIn] = transition;
             indexIn++;
         } else{
+            out = Arrays.copyOf(out, indexOut + 1);
             out[indexOut] = transition;
             indexOut++;
         }
@@ -134,5 +138,55 @@ public class Etat {
         }
 
         return etat;
+    }
+
+    /**Parcours Epsilon**/
+    public Etat[] parcoursEpsilon(char word){
+        Etat[] etats = new Etat[0];
+        int length = 0;
+        for(int i = 0; i < out.length; i++){
+            if (out[i].getWord() == word){
+                etats = Arrays.copyOf(etats, length + 1);
+                etats[length] = out[i].getArrive();
+                length++;
+            } else if(out[i].getWord() == '*'){
+                etats = mergeEtatTab(etats, parcoursEpsilon(word));
+            }
+        }
+        return etats;
+    }
+
+    public static Etat[] mergeEtatTab(Etat[] first, Etat[] second){
+        int firstLength = first.length;
+        int secondLength = second.length;
+        first = Arrays.copyOf(first, firstLength + secondLength);
+        for(int i = 0; i < secondLength; i++){
+            first[i + firstLength] = second[i];
+        }
+        return first;
+    }
+
+    public boolean parcoursIsFinish(Etat etat){
+        boolean isFinish = finish;
+        int i = 0;
+        while (i < indexOut && !isFinish){
+            if(out[i].getWord() == '*' && out[i].getArrive() != etat){
+                isFinish = out[i].getArrive().parcoursIsFinish(etat);
+            }
+            i++;
+        }
+        return isFinish;
+    }
+
+    public boolean parcoursIsInit(Etat etat){
+        boolean isInit = init;
+        int i = 0;
+        while(i < indexIn && !isInit){
+            if(in[i].getWord() == '*' && in[i].getStart() != etat){
+                isInit = in[i].getStart().parcoursIsInit(etat);
+            }
+            i++;
+        }
+        return isInit;
     }
 }
