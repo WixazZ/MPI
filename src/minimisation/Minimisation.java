@@ -55,13 +55,13 @@ public class Minimisation {
 
         for(int i = 0; i < automate.getNumberState(); i++){
             if(etats[i].getInit()){
-                initState = Arrays.copyOf(initState, numberInit);
+                initState = Arrays.copyOf(initState, numberInit + 1);
                 initState[numberInit] = etats[i].getName();
                 numberInit++;
             }
 
             if(etats[i].getFinish()){
-                finishState = Arrays.copyOf(finishState, numberFinish);
+                finishState = Arrays.copyOf(finishState, numberFinish + 1);
                 finishState[numberFinish] = etats[i].getName();
                 numberFinish++;
             }
@@ -74,7 +74,7 @@ public class Minimisation {
         return automate;
     }
 
-    public MiniGroup[] appendMiniGroupArray(MiniGroup newGroups[], MiniGroup tempGroup[]){
+    public MiniGroup[] appendMiniGroupArray(MiniGroup[] newGroups, MiniGroup[] tempGroup){
         int newLength = newGroups.length;
         int tempLength = tempGroup.length;
         newGroups = Arrays.copyOf(newGroups, newLength + tempLength);
@@ -85,7 +85,7 @@ public class Minimisation {
         return newGroups;
     }
 
-    public boolean isMinimized(MiniGroup oldGroup[], MiniGroup currentGroup[]){
+    public boolean isMinimized(MiniGroup[] oldGroup, MiniGroup[] currentGroup){
         return oldGroup.length == currentGroup.length;
     }
 

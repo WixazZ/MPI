@@ -1,5 +1,7 @@
 package automaton;
 
+import java.util.*;
+
 public class Etat {
     private int name;
     private Transition[] in;
@@ -134,5 +136,31 @@ public class Etat {
         }
 
         return etat;
+    }
+
+    /**Epsilon */
+    public Etat[] parcoursEpsilon(char word){
+        Etat[] etats = new Etat[0];
+        int length = 0;
+        for(int i = 0; i < out.length; i++){
+            if (out[i].getWord() == word){
+                etats = Arrays.copyOf(etats, length + 1);
+                etats[length] = out[i].getArrive();
+                length++;
+            } else if(out[i].getWord() == word){
+                etats = mergeEtatTab(etats, parcoursEpsilon(word));
+            }
+        }
+        return etats;
+    }
+
+    public static Etat[] mergeEtatTab(Etat[] first, Etat[] second){
+        int firstLength = first.length;
+        int secondLength = second.length;
+        first = Arrays.copyOf(first, firstLength + secondLength);
+        for(int i = 0; i < secondLength; i++){
+            first[i + firstLength] = second[i];
+        }
+        return first;
     }
 }
