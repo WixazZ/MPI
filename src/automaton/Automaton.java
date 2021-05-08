@@ -248,5 +248,16 @@ public class Automaton {
             return false;}
     }
 
+    public boolean isAsync() {
+		for (int i=0;i<numberState;i++) {
+			for(int j=0;j<etats[i].getIndexOut();j++) {
+				char symbole=etats[i].getOut()[j].getWord();
+				if (symbole=='*') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 }
