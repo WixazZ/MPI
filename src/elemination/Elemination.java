@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Elemination {
 
-    public Automaton elemination(Automaton automate){
+    public static Automaton elemination(Automaton automate){
 
         Ligne[] lignes = new Ligne[1];
         int length= 1;
@@ -26,7 +26,7 @@ public class Elemination {
         return ligneToAutomaton(lignes);
     }
 
-    public Automaton ligneToAutomaton(Ligne[] lignes){
+    public static Automaton ligneToAutomaton(Ligne[] lignes){
 
         Automaton automate = new Automaton();
         automate.setNumberAlphabet(lignes[0].getColonne().length);
@@ -72,7 +72,7 @@ public class Elemination {
         return automate;
     }
 
-    public Ligne[] newLigne(Ligne ligne, Ligne[] ligneTab){
+    public static Ligne[] newLigne(Ligne ligne, Ligne[] ligneTab){
 
         Colonne[] colonnes = ligne.getColonne();
         int lengthNewTab = 0;
@@ -91,7 +91,7 @@ public class Elemination {
         return ligneTab;
     }
 
-    public Ligne[] refreshedColLigne(Ligne[] lignes){
+    public static Ligne[] refreshedColLigne(Ligne[] lignes){
         int lengthLignes = lignes.length;
         for(int i = 0; i < lengthLignes; i++){//Parcours des lignes
             for(int j = 0; j < lignes[i].getColonne().length; j++){
@@ -113,7 +113,7 @@ public class Elemination {
         return lignes;
     }
 
-    public boolean alreadyExist(Ligne[] lignes, Ligne newLigne) {
+    public static boolean alreadyExist(Ligne[] lignes, Ligne newLigne) {
         boolean exist = false;
         int i = 0;
         int lengthLigne = lignes.length;
@@ -131,7 +131,7 @@ public class Elemination {
         return exist;
     }
 
-    public boolean isFinish(Ligne ligne){
+    public static boolean isFinish(Ligne ligne){
         boolean finish = false;
         int i = 0;
         while(i < ligne.getName().length && !finish){
@@ -141,7 +141,7 @@ public class Elemination {
         return finish;
     }
 
-    public boolean isInit(Ligne ligne){
+    public static boolean isInit(Ligne ligne){
         boolean init = false;
         int i = 0;
         while(i <  ligne.getName().length && !init){
@@ -151,7 +151,7 @@ public class Elemination {
         return init;
     }
 
-    public Ligne[] addLigne(Ligne[] lignes, Ligne newLigne){
+    public static Ligne[] addLigne(Ligne[] lignes, Ligne newLigne){
         int length = lignes.length;
         lignes = Arrays.copyOf(lignes, length + 1);
         lignes[length] = newLigne;
