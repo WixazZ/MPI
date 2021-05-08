@@ -9,12 +9,29 @@ public class Ligne {
 
     private Etat[] name;
     private Colonne[] colonne;
+    private boolean init;
+    private boolean finish;
 
     /**Constructeurs */
     public Ligne(Etat etat, int numberAlphabet){
         this.name = new Etat[1];
         this.name[0] = etat;
         this.colonne = new Colonne[numberAlphabet];
+        this.init = etat.getInit();
+        this.finish = etat.getFinish();
+    }
+
+    public Ligne(Etat[] etat, int numberAlphabet){
+        this.name = etat;
+        this.colonne = new Colonne[numberAlphabet];
+        this.init = false;
+        this.finish = false;
+        int nameLength = name.length;
+        int i = 0;
+        while (i < nameLength && (!init || !finish)){
+            init = name[i].getInit();
+            finish = name[i].getFinish();
+        }
     }
 
     /**Accesseurs */
