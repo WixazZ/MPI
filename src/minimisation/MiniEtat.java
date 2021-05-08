@@ -11,7 +11,7 @@ public class MiniEtat {
     public MiniEtat(Etat etat){
         this.etat = etat;
         this.miniGroup = null;
-        this.transition = null;
+        this.transition = new MiniTransition[0];
     }
 
     public MiniEtat(Etat etat, MiniGroup miniGroup){
@@ -64,9 +64,11 @@ public class MiniEtat {
             while(j < etat.getIndexOut() && !created){//Recherche de la transition avec le bon mot
 
                 if(etat.getOut()[j].getWord() != alphabet[i]){//Recherche de la transition correspond au mot
+
                     for(int k = 0; k < lengthGroupes && !created; k++){//Parcours des différents MiniGroupp
-                        if(groupes[k].getFinish() == etat.getFinish()){//Permet de filtrer les groupes en fonction de leur finish
-                            for(int l = 0; l < groupes[k].getIndexMiniEtats() && !created; k++){//Parcours des différents MiniEtat dans le MiniGroup
+                        if(groupes[k].getFinish() == etat.getOut()[j].getArrive().getFinish()){//Permet de filtrer les groupes en fonction de leur finish
+
+                            for(int l = 0; l < groupes[k].getIndexMiniEtats() && !created; l++){//Parcours des différents MiniEtat dans le MiniGroup
                                 if(groupes[k].getMiniEtats()[l].etat == etat.getOut()[j].getArrive()){//Recherche du MiniEtat correspond à l'Etat de la transition
                                     transition[i] = new MiniTransition(this, alphabet[i], groupes[k].getMiniEtats()[l]);//Création de la MiniTransition
                                     created = true;
@@ -76,6 +78,7 @@ public class MiniEtat {
                     }
                 }
                 j++;
+
             }
         }
     }

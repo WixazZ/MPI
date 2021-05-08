@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static minimisation.Minimisation.minimisation;
 import static reconnaissance.Reco.read;
 
 public class Test {
@@ -18,7 +19,7 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 
 
-        File fichier = new File("ressource/automate/R1-5.txt");
+        File fichier = new File("ressource/automate/R1-14.txt");
 
 
         Scanner lecteur = new Scanner(fichier);
@@ -58,6 +59,17 @@ public class Test {
         deter.isDeterministe();
         System.out.println(deter.getisDeterministe());
 
+        System.out.println("**********************Complétion**********************\n");
+
+        Automaton automate = deter.getAFD();
+
+        automate.completer();
+
+        autom.printAutomate();
+
+        System.out.println("**********************Minimisation**********************\n");
+
+        automate = minimisation(automate);
 
     }
 }

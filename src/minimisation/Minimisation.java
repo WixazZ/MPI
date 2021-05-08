@@ -5,7 +5,7 @@ import automaton.*;
 
 public class Minimisation {
 
-    public Automaton minimisation(Automaton automate){
+    public static Automaton minimisation(Automaton automate){
 
         MiniGroup[] groups = initMinimation(automate);
 
@@ -30,7 +30,7 @@ public class Minimisation {
         return miniToAutomaton(groups);
     }
 
-    public Automaton miniToAutomaton(MiniGroup[] groups){
+    public static Automaton miniToAutomaton(MiniGroup[] groups){
 
         Automaton automate = new Automaton();
         automate.setNumberAlphabet(groups[0].getMiniEtats()[0].getEtat().getIndexOut());
@@ -74,7 +74,7 @@ public class Minimisation {
         return automate;
     }
 
-    public MiniGroup[] appendMiniGroupArray(MiniGroup[] newGroups, MiniGroup[] tempGroup){
+    public static MiniGroup[] appendMiniGroupArray(MiniGroup[] newGroups, MiniGroup[] tempGroup){
         int newLength = newGroups.length;
         int tempLength = tempGroup.length;
         newGroups = Arrays.copyOf(newGroups, newLength + tempLength);
@@ -85,15 +85,15 @@ public class Minimisation {
         return newGroups;
     }
 
-    public boolean isMinimized(MiniGroup[] oldGroup, MiniGroup[] currentGroup){
+    public static boolean isMinimized(MiniGroup[] oldGroup, MiniGroup[] currentGroup){
         return oldGroup.length == currentGroup.length;
     }
 
-    public MiniGroup[] split(MiniGroup group){//Split des différents MiniGroup
+    public static MiniGroup[] split(MiniGroup group){//Split des différents MiniGroup
 
         MiniGroup[] groupes = new MiniGroup[group.getIndexMiniEtats()];
         groupes[0] = new MiniGroup(group.getName() + "0", group.getFinish());
-        groupes[0].addEtat(new MiniEtat(group.getMiniEtats()[1], groupes[0]));
+        groupes[0].addEtat(new MiniEtat(group.getMiniEtats()[0], groupes[0]));
         int indexMiniGroup = 1;
 
         for(int i = 1; i < group.getIndexMiniEtats(); i++){
@@ -111,11 +111,14 @@ public class Minimisation {
                 indexMiniGroup++;
             }
         }
-
+        for(int i = 0; i < indexMiniGroup; i++){
+            groupes[i].makeTransition(groupes, indexMiniGroup);
+        }
+        groupes = Arrays.copyOf(groupes, indexMiniGroup);
         return groupes;
     }
 
-    public MiniGroup[] initMinimation(Automaton automate){//Initialisation des MiniGroups T et N
+    public static MiniGroup[] initMinimation(Automaton automate){//Initialisation des MiniGroups T et N
 
         Etat[] etats = automate.getEtats();
 
