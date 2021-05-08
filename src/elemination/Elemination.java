@@ -21,7 +21,7 @@ public class Elemination {
             length = lignes.length;
         }
 
-        lignes = refreshedColLigne(lignes);
+        refreshedColLigne(lignes);
 
         return ligneToAutomaton(lignes);
     }
