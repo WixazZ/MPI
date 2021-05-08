@@ -74,6 +74,8 @@ public class Determinise {
             AFD = elemination(autom_copy);
             System.out.println("coucou");
 
+            synciit();
+
 /*
             List<Sync_state> a_traiter = new ArrayList<>();
 

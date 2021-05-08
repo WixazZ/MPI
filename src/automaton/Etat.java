@@ -153,7 +153,7 @@ public class Etat {
                 etats[length] = out[i].getArrive();
                 length++;
             } else if(out[i].getWord() == '*'){
-                etats = mergeEtatTab(etats, parcoursEpsilon(word));
+                etats = mergeEtatTab(etats, out[i].getArrive().parcoursEpsilon(word));
             }
         }
         return etats;

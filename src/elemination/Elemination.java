@@ -138,6 +138,11 @@ public class Elemination {
         return exist;
     }
 
+    /*public Ligne[] allInOne(Ligne[] lignes){
+        Ligne[] init = new Ligne[0];
+        for(int i = 0; i < )
+    }*/
+
     public static boolean isFinish(Ligne ligne){
         boolean finish = false;
         int i = 0;
