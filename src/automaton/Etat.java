@@ -1,6 +1,8 @@
 package automaton;
 
+import java.util.Arrays;
 import java.util.*;
+
 
 public class Etat {
     private int name;
@@ -115,9 +117,11 @@ public class Etat {
 
     public void addTransition(Transition transition, boolean inBool){
         if(inBool){
+            in = Arrays.copyOf(in, indexIn + 1);
             in[indexIn] = transition;
             indexIn++;
         } else{
+            out = Arrays.copyOf(out, indexOut + 1);
             out[indexOut] = transition;
             indexOut++;
         }
@@ -138,7 +142,7 @@ public class Etat {
         return etat;
     }
 
-    /**Epsilon */
+    /**Parcours Epsilon**/
     public Etat[] parcoursEpsilon(char word){
         Etat[] etats = new Etat[0];
         int length = 0;
@@ -147,7 +151,7 @@ public class Etat {
                 etats = Arrays.copyOf(etats, length + 1);
                 etats[length] = out[i].getArrive();
                 length++;
-            } else if(out[i].getWord() == word){
+            } else if(out[i].getWord() == '*'){
                 etats = mergeEtatTab(etats, parcoursEpsilon(word));
             }
         }
@@ -162,5 +166,29 @@ public class Etat {
             first[i + firstLength] = second[i];
         }
         return first;
+    }
+
+    public boolean parcoursIsFinish(Etat etat){
+        boolean isFinish = finish;
+        int i = 0;
+        while (i < indexOut && !isFinish){
+            if(out[i].getWord() == '*' && out[i].getArrive() != etat){
+                isFinish = out[i].getArrive().parcoursIsFinish(etat);
+            }
+            i++;
+        }
+        return isFinish;
+    }
+
+    public boolean parcoursIsInit(Etat etat){
+        boolean isInit = init;
+        int i = 0;
+        while(i < indexIn && !isInit){
+            if(in[i].getWord() == '*' && in[i].getStart() != etat){
+                isInit = in[i].getStart().parcoursIsInit(etat);
+            }
+            i++;
+        }
+        return isInit;
     }
 }
