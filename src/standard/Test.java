@@ -11,10 +11,8 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException {
       
       
-        File fichier = new File("ressource/automate1.txt");
+        File fichier = new File("ressource/automate/R1-5.txt");
 
-
-        File fichier = new File("ressource/automate3.txt");
       
         Scanner lecteur = new Scanner(fichier);
 
@@ -25,22 +23,19 @@ public class Test {
 
         System.out.println( read("abcd", autom));
 
-        /*Standard stand = new Standard(autom);
-
-
-        autom.completer();
-
-        autom.printAutomate();
         Standard stand = new Standard(autom);
+
+
+        //autom.completer();
 
         stand.isStandard();
         System.out.println(stand.getIsStandard());
         stand.standardiser();
 
         System.out.println("**********************STANDARDISER**********************\n");
-        stand.getAFD().printAutomate();
+        stand.getAF().printAutomate();
 
-        //autom.complementaire();*/
+        //autom.complementaire();
 
         //autom.complementaire();
 
