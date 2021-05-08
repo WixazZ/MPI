@@ -1,5 +1,7 @@
 package automaton;
 
+import java.util.*;
+
 public class Etat {
     private int name;
     private Transition[] in;
@@ -152,9 +154,9 @@ public class Etat {
         return etats;
     }
 
-    public Etat[] mergeEtatTab(Etat[] first, Etat[] second){
-        firstLength = first.length;
-        secondLength = second.length;
+    public static Etat[] mergeEtatTab(Etat[] first, Etat[] second){
+        int firstLength = first.length;
+        int secondLength = second.length;
         first = Arrays.copyOf(first, firstLength + secondLength);
         for(int i = 0; i < secondLength; i++){
             first[i + firstLength] = second[i];

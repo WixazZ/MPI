@@ -3,6 +3,8 @@ package elemination;
 import java.util.*;
 import automaton.*;
 
+import static automaton.Etat.mergeEtatTab;
+
 public class Ligne {
 
     private Etat[] name;
@@ -16,7 +18,7 @@ public class Ligne {
     }
 
     /**Accesseurs */
-    public String getName(){
+    public Etat[] getName(){
         return name;
     }
 
@@ -24,7 +26,7 @@ public class Ligne {
         return colonne;
     }
 
-    public void setName(String name){
+    public void setName(Etat[] name){
         this.name = name;
     }
 
@@ -36,8 +38,8 @@ public class Ligne {
     public void makeColonne(){
         for(int i = 0; i < name.length; i++){//Parcours de différent Etat concernés
             for(int j = 0; j < colonne.length; j++){//Remplissage des colonnes
-                Etat[] etats = name[i].parcoursEpsilon('a' + j);
-                colonne[j].setEtats(suppDoublon(mergeEtatTab(colonne[j].getEtat, etats)));
+                Etat[] etats = name[i].parcoursEpsilon((char) ('a' + j));
+                colonne[j].setEtats(suppDoublon(mergeEtatTab(colonne[j].getEtats(), etats)));
             }
         }
     }
