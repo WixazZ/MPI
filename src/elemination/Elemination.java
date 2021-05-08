@@ -64,8 +64,9 @@ public class Elemination {
 
         for(int i = 0; i < automate.getNumberState(); i++){
             for(int j = 0; j < automate.getNumberAlphabet(); j++){
-                etats[i].addTransition(new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]), false);
-                etats[lignes[i].getColonne()[j].getLigne().getNumber()].addTransition(new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]), true);
+                Transition trans = new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]);
+                etats[i].addTransition(trans, false);
+                etats[lignes[i].getColonne()[j].getLigne().getNumber()].addTransition(trans, true);
             }
         }
 

@@ -19,7 +19,7 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 
 
-        File fichier = new File("ressource/automate/R1-14.txt");
+        File fichier = new File("ressource/automate/R1-31" + ".txt");
 
 
         Scanner lecteur = new Scanner(fichier);
@@ -65,11 +65,13 @@ public class Test {
 
         automate.completer();
 
-        autom.printAutomate();
+        automate.printAutomate();
 
         System.out.println("**********************Minimisation**********************\n");
 
         automate = minimisation(automate);
+
+        automate.printAutomate();
 
     }
 }
