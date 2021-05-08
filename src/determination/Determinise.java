@@ -12,7 +12,7 @@ import static elemination.Elemination.elemination;
 public class Determinise {
 
     private boolean isDeterministe;
-    private final Automaton AFD;
+    private Automaton AFD;
 
 
     public Determinise(Automaton autom){
@@ -70,8 +70,10 @@ public class Determinise {
 
 
 
-            //Automaton autom_copy = AFD.copie();
-            //autom_copy = elemination(autom_copy);
+            Automaton autom_copy = AFD.copie();
+            AFD = elemination(autom_copy);
+
+
 /*
             List<Sync_state> a_traiter = new ArrayList<>();
 
@@ -119,7 +121,7 @@ public class Determinise {
                     a_traiter.add(value);
                 }
             }*/
-            System.out.println("tes");
+            //System.out.println("tes");
 
 
         } else {
