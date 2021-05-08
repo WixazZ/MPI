@@ -235,5 +235,14 @@ public class Automaton {
             return false;
         }
     }
-
+    public boolean is_synchrone(Automaton auto){
+        for (int i = 0; i < auto.getEtats().length; i++) {
+            for (int j = 0; j < auto.getEtats()[i].getIn().length; j++) {
+                if (auto.getEtats()[i].getIn()[j]!= null && auto.getEtats()[i].getIn()[j].getWord() == '*'){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
