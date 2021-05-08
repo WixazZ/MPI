@@ -51,88 +51,12 @@ public class Determinise {
     }
 
     public void determiniser(){
-        if(!isDeterministe){
-
-            /*
-            if (AFD.getInitState().length != 1){
-                Etat recup = AFD.getEtats()[AFD.getInitState()[0]];
-
-                for (Etat i : AFD.getEtats()) { // parcours des états
-                    if(i.getInit() && i!= recup){ // si l'état est un init
-                        sync_state_init(AFD, recup, i);
-                    }
-                }
-                int[] init_states = new int [1];
-                init_states[0] = recup.getName();
-                AFD.setInitState(init_states);
-            }*/
-            synciit();
-
-
-
-            Automaton autom_copy = AFD.copie();
-            AFD = elemination(autom_copy);
-            System.out.println("coucou");
-
-/*
-            List<Sync_state> a_traiter = new ArrayList<>();
-
-            for (Etat p_state: AFD.getEtats()) {
-
-                boolean create = false;
-                Sync_state value = new Sync_state();
-                List<Etat> Sync = new ArrayList<>();
-                List<Character> char_list = new ArrayList<>();
-                List<Sync_state> word_en_double = new ArrayList<>();
-
-                for (int i = 0; i < p_state.getIndexOut(); i++) { // Parcour toutes les transitions de l'etat
-
-                    for (int j = 0; j < p_state.getIndexOut(); j++) { //Parcour toutes les transitions de l'etat
-
-                        if (i != j && p_state.getOut()[i].getWord() == p_state.getOut()[j].getWord()) { //compare si transition en double
-
-                            if(!create){
-                                value.setMaster(p_state);
-                                value.setCharacter(p_state.getOut()[i].getWord());
-                                char_list.add(p_state.getOut()[i].getWord());
-                                create = true;
-                            }
-                            if(p_state.getOut()[i].getWord() == value.getCharacter()){
-                                if(!Sync.contains(p_state.getOut()[j].getArrive())){
-                                    Sync.add(p_state.getOut()[i].getArrive());
-                                }
-                                if(!Sync.contains(p_state.getOut()[j].getArrive())){
-                                    Sync.add(p_state.getOut()[j].getArrive());
-                                }
-                            }else{
-                                if(!char_list.contains(p_state.getOut()[i].getWord())){
-                                    char_list.add(p_state.getOut()[i].getWord());
-                                }
-                            }
-                            //sync_state(autom_copy, p_state.getOut()[i].getArrive(), p_state.getOut()[j].getArrive());
-                        }
-                    }
-
-                }
-                if(Sync.size() !=0){
-                    value.setSync(Sync);
-                }
-                if (create) {
-                    a_traiter.add(value);
-                }
-            }*/
-            //System.out.println("tes");
-
-
-        } else {
-            System.out.println("L'automate est déjà deterministe");
-        }
+        synciit();
+        Automaton autom_copy = AFD.copie();
+        AFD = elemination(autom_copy);
 
     }
 
-    public void sync_state(Etat convert){
-
-    }
 
     public void synciit(){
         int numberStateIfReturn = AFD.getEtats()[AFD.getInitState()[0]].getName();
@@ -391,71 +315,6 @@ public class Determinise {
         }
         return true;
     }
-//    public void sync_init_state(Etat recup, Etat i){
-//
-//        recup.setName(create_name_state());
-//
-//            if(i.getName() != recup.getName()){ //si c'est pas l'état initial
-//
-//                    List<Transition> supp_double = new ArrayList<>(Arrays.asList(recup.getOut()));
-//                    Transition[] new_out = new Transition[i.getOut().length];
-//                    for (int j = 0; j < i.getOut().length; j++) {
-//                        if(i.getOut()[j] != null){
-//                            new_out[j] = i.getOut()[j].copie();
-//                            if (new_out[j] != null) {
-//                                new_out[j].setStart(recup);
-//                                boolean equals = false;
-//                                int k = 0;
-//                                int l = 0;
-//                                int supp_double_size = 0;
-//                                while (supp_double.get(l) != null) {
-//                                    l++;
-//                                    supp_double_size = l;
-//                                }
-//                                while (k < supp_double_size && !equals) {
-//                                    if (supp_double.get(k).getStart().getName() == new_out[j].getStart().getName() &&
-//                                            supp_double.get(k).getWord() == new_out[j].getWord() &&
-//                                            supp_double.get(k).getArrive().getName() == new_out[j].getArrive().getName() ){
-//                                        equals = true;
-//                                    }
-//                                    k++;
-//                                }
-//                                if (!equals ){
-//                                    AFD.setNumberState(AFD.getNumberState()+1);
-//                                    supp_double.add(new_out[j]);
-//                                }
-//                            }
-//                        }
-//                    }
-//                    int pa = 0;
-//                    int taille = 0;
-//                    while(pa < supp_double.size()){
-//                        if(supp_double.get(pa) != null){
-//                            taille++;
-//                        }
-//                        pa++;
-//                    }
-//                    pa = 0;
-//                    Transition[] insert_out_trans = new Transition[taille];
-//                    int j = 0;
-//                    while (pa < supp_double.size()) {
-//                        if(supp_double.get(pa) != null) {
-//                            insert_out_trans[j] = supp_double.get(pa);
-//                            j++;
-//                        }
-//                        pa++;
-//                    }
-//                    recup.setIndexOut(taille);
-//                    recup.setOut(insert_out_trans);
-//                    i.setInit(false);
-//
-//                if (i.getFinish()){
-//                    recup.setFinish(true);
-//                }
-//            }
-//
-//    }
-
     public Automaton getAFD() {
         return AFD;
     }

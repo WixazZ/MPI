@@ -44,12 +44,12 @@ public class Minimisation {
             for(int j = 0; j < groups[i].getIndexMiniEtats() && !init; j++){
                 init = groups[i].getMiniEtats()[j].getEtat().getInit();
             }
-            etats[i] = new Etat(i, init, groups[i].getFinish(), 0, automate.getNumberAlphabet());
+            etats[i] = new Etat(i, init, groups[i].getFinish(), 0, 0);
         }
 
         int numberInit = 0;
         int[] initState = new int[0];
-        
+
         int numberFinish = 0;
         int[] finishState = new int[0];
 
@@ -67,6 +67,24 @@ public class Minimisation {
             }
         }
 
+        for(int i = 0; i < automate.getNumberState(); i++){
+            for(int j = 0; j < automate.getNumberAlphabet(); j++){
+                int k = 0;
+                boolean find = false;
+                while(k < automate.getNumberState() && !find){
+                    if(groups[k] == groups[i].getMiniEtats()[0].getTransition()[j].getArrive().getMiniGroup()){
+                        find = true;
+                    } else{
+                        k++;
+                    }
+                }
+
+                Transition trans = new Transition(etats[i], groups[i].getMiniEtats()[0].getTransition()[j].getWord(), etats[k]);
+                etats[i].addTransition(trans, false);
+                etats[k].addTransition(trans, true);
+            }
+        }
+
         automate.setInitState(initState);
         automate.setFinishState(finishState);
         automate.setEtats(etats);
@@ -78,7 +96,7 @@ public class Minimisation {
         int newLength = newGroups.length;
         int tempLength = tempGroup.length;
         newGroups = Arrays.copyOf(newGroups, newLength + tempLength);
-        
+
         for(int i = 0; i < tempLength; i++){
             newGroups[newLength + i] = tempGroup[i];
         }
@@ -108,6 +126,7 @@ public class Minimisation {
                 groupes[j].addEtat(new MiniEtat(group.getMiniEtats()[i], groupes[j]));
             } else{
                 groupes[j] = new MiniGroup(group.getName() + j, group.getFinish());
+                groupes[j].addEtat(new MiniEtat(group.getMiniEtats()[i], groupes[j]));
                 indexMiniGroup++;
             }
         }
@@ -141,5 +160,5 @@ public class Minimisation {
 
         return groupes;
     }
-    
+
 }

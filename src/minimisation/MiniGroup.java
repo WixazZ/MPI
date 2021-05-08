@@ -69,7 +69,7 @@ public class MiniGroup {
             miniEtats[indexMiniEtats] = etat;
             indexMiniEtats++;
         }
-    
+
     }
 
     public void removeEtat(MiniEtat etat){

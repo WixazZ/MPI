@@ -25,7 +25,7 @@ public class Standard {
             while(isStandard == i < etats.length && !verif){
                 etat = etats[i];
                 trans = etat.getOut();
-                if (trans[i] != null){
+                if (i< etat.getIndexOut() && trans[i] != null){
                     sortant = trans[i].getArrive();
                     if(sortant.getName() == init){
                         System.out.println("L'automate n'est pas standard car l' etat "+etat.getName()+" contient une transition vers l'etat initial "+init);

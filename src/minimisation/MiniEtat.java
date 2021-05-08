@@ -63,7 +63,7 @@ public class MiniEtat {
             int j = 0;
             while(j < etat.getIndexOut() && !created){//Recherche de la transition avec le bon mot
 
-                if(etat.getOut()[j].getWord() != alphabet[i]){//Recherche de la transition correspond au mot
+                if(etat.getOut()[j].getWord() == alphabet[i]){//Recherche de la transition correspond au mot
 
                     for(int k = 0; k < lengthGroupes && !created; k++){//Parcours des différents MiniGroupp
                         if(groupes[k].getFinish() == etat.getOut()[j].getArrive().getFinish()){//Permet de filtrer les groupes en fonction de leur finish
@@ -123,5 +123,3 @@ public class MiniEtat {
         return same;
     }
 }
-
-
