@@ -14,6 +14,7 @@ public class Etat {
     private boolean finish;
 
     /**Contructeur**/
+    public Etat(){ }
     public Etat(int name, boolean init, boolean finish, int numberTransition){
         this.name = name;
         this.init = init;
