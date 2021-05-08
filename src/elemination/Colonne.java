@@ -12,7 +12,7 @@ public class Colonne {
     /**Constructeurs */
     public Colonne(String name, Ligne ligne){
         this.name = name;
-        this.etats = new etats[0];
+        this.etats = new Etat[0];
         this.ligne = ligne;
     }
 
