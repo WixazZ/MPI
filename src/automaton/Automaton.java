@@ -24,9 +24,7 @@ public class Automaton {
 
     /**Contructeur**/
     public Automaton(){
-        this.etats = new Etat[0];
-        this.initState = new int[0];
-        this.finishState = new int[0];
+
     }
 
     public Automaton(int numberAlphabet, int numberState, int[] initState, int[] finishState, int numberTransition, String[] transition){
@@ -170,7 +168,10 @@ public class Automaton {
     }
 
     public void complementaire(){
-        completer();
+        /*if (isComplet(Automaton) == false) {
+            return Completer(Automaton);
+        }*/
+
         for (int i = 0; i < numberState; i++) {
             if (etats[i].getFinish())
                 etats[i].setFinish(false);
@@ -180,60 +181,15 @@ public class Automaton {
         }
     }
 
-    public void completer() {
-        if (!isComplet()) {
-            char[] alphabet = new char[numberAlphabet];
-
-            for (int i = 0; i < numberAlphabet; i++) {
-                alphabet[i] = (char) ('a' + i);
-            }
-
-            numberState++;
-            etats = Arrays.copyOf(etats, numberState);
-            etats[numberState - 1] = new Etat(numberState - 1, false, false, numberAlphabet * (numberState - 1));
-
-            for (int i = 0; i < numberState; i++) {
-                for (int j = 0; j < numberAlphabet; j++) {
-                    boolean complet = false;
-                    int k = 0;
-                    while (!complet && k < etats[i].getIndexOut()) {
-                        if (etats[i].getOut()[k].getWord() == alphabet[j]) {
-                            complet = true;
-                        } else {
-                            k++;
-                        }
-                    }
-
-                    if (!complet) {
-                        Transition trans = new Transition(etats[i], alphabet[j], etats[numberState - 1]);
-                        etats[i].addTransition(trans, false);
-                        etats[numberState - 1].addTransition(trans, true);
-                        numberTransition++;
-                    }
+    public boolean is_synchrone(Automaton auto){
+        for (int i = 0; i < auto.getEtats().length; i++) {
+            for (int j = 0; j < auto.getEtats()[i].getIn().length; j++) {
+                if (auto.getEtats()[i].getIn()[j].getWord() == '*'){
+                    return false;
                 }
             }
         }
-    }
-
-    public boolean isComplet(){
-        if (numberAlphabet * numberState == numberTransition) {
-            boolean complet = true;
-            int i = 0;
-            while (i < numberState && complet){
-                complet = etats[i].getIndexOut() == numberAlphabet;
-                i++;
-            }
-            if(complet){
-                System.out.println("L'automate est complet");
-            } else{
-                System.out.println("L'automate n'est pas complet, il existe plusieurs possibilité pour la meme lettre");
-            }
-            return complet;
-        }
-        else {
-            System.out.println("Le nombre de transition n'est pas bon");
-            return false;
-        }
+        return true;
     }
 
 }
