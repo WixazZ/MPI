@@ -1,6 +1,8 @@
 package automaton;
 
 import java.util.Arrays;
+import java.util.*;
+
 
 public class Etat {
     private int name;
