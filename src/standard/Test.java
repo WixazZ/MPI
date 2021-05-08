@@ -11,10 +11,8 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException {
       
       
-        File fichier = new File("ressource/automate1.txt");
+        File fichier = new File("ressource/automate/R1-5.txt");
 
-
-        File fichier = new File("ressource/automate3.txt");
       
         Scanner lecteur = new Scanner(fichier);
 

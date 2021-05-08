@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 
-        File fichier = new File("ressource/automate/B1-5.txt");
+        File fichier = new File("ressource/automate/R1-6.txt");
         Scanner lecteur = new Scanner(fichier);
 
         Automaton autom = Lecteur.lecture(lecteur);
