@@ -21,20 +21,23 @@ public class Standard {
             Etat etat;
             Transition[] trans;
             Etat sortant;
-            while(isStandard == i < etats.length){
+            boolean verif = false;
+            while(isStandard == i < etats.length && !verif){
                 etat = etats[i];
                 trans = etat.getOut();
                 if (trans[i] != null){
                     sortant = trans[i].getArrive();
                     if(sortant.getName() == init){
+                        System.out.println("L'automate n'est pas standard car l' etat "+etat.getName()+" contient une transition vers l'etat initial "+init);
+                        verif = true;
                         isStandard = false;
                     }
                 }
 
                 i++;
             }
-
         }else{
+            System.out.println("L'automate n'est pas standard car il contient plusieurs états initials");
             isStandard = false;
         }
 
