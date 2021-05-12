@@ -144,13 +144,13 @@ public class Automaton {
     /**Methode**/
     public void printInitState(){
         for (int element: initState){
-            System.out.println("Etat initial: " + element);
+            System.out.println("l'Etat est initial: " + element);
         }
     }
 
     public void printFinsihState(){
         for (int element: finishState){
-            System.out.println("Etat Sortant: " + element);
+            System.out.println("l'Etat est Sortant: " + element);
         }
     }
 

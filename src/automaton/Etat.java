@@ -106,11 +106,17 @@ public class Etat {
     }
 
     public void printTransition(){
-        System.out.println("Transition entrante:");
+        if (indexIn != 0){
+            System.out.println("Transition entrante:");
+        }
+
         for (int i = 0; i < indexIn; i++){
             System.out.println(in[i].getStart().name + " " + in[i].getWord() + " " + in[i].getArrive().name);
         }
-        System.out.println("Transition sortante:");
+        if(indexOut != 0){
+            System.out.println("Transition sortante:");
+        }
+
         for (int i = 0; i < indexOut; i++){
             System.out.println(out[i].getStart().name + " " + out[i].getWord() + " " + out[i].getArrive().name);
         }

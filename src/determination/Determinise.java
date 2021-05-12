@@ -52,78 +52,10 @@ public class Determinise {
 
     public void determiniser(){
         if(!isDeterministe){
-
-            /*
-            if (AFD.getInitState().length != 1){
-                Etat recup = AFD.getEtats()[AFD.getInitState()[0]];
-
-                for (Etat i : AFD.getEtats()) { // parcours des états
-                    if(i.getInit() && i!= recup){ // si l'état est un init
-                        sync_state_init(AFD, recup, i);
-                    }
-                }
-                int[] init_states = new int [1];
-                init_states[0] = recup.getName();
-                AFD.setInitState(init_states);
-            }*/
             synciit();
-
-
-
             Automaton autom_copy = AFD.copie();
             AFD = elemination(autom_copy);
-            System.out.println("coucou");
 
-            synciit();
-
-/*
-            List<Sync_state> a_traiter = new ArrayList<>();
-
-            for (Etat p_state: AFD.getEtats()) {
-
-                boolean create = false;
-                Sync_state value = new Sync_state();
-                List<Etat> Sync = new ArrayList<>();
-                List<Character> char_list = new ArrayList<>();
-                List<Sync_state> word_en_double = new ArrayList<>();
-
-                for (int i = 0; i < p_state.getIndexOut(); i++) { // Parcour toutes les transitions de l'etat
-
-                    for (int j = 0; j < p_state.getIndexOut(); j++) { //Parcour toutes les transitions de l'etat
-
-                        if (i != j && p_state.getOut()[i].getWord() == p_state.getOut()[j].getWord()) { //compare si transition en double
-
-                            if(!create){
-                                value.setMaster(p_state);
-                                value.setCharacter(p_state.getOut()[i].getWord());
-                                char_list.add(p_state.getOut()[i].getWord());
-                                create = true;
-                            }
-                            if(p_state.getOut()[i].getWord() == value.getCharacter()){
-                                if(!Sync.contains(p_state.getOut()[j].getArrive())){
-                                    Sync.add(p_state.getOut()[i].getArrive());
-                                }
-                                if(!Sync.contains(p_state.getOut()[j].getArrive())){
-                                    Sync.add(p_state.getOut()[j].getArrive());
-                                }
-                            }else{
-                                if(!char_list.contains(p_state.getOut()[i].getWord())){
-                                    char_list.add(p_state.getOut()[i].getWord());
-                                }
-                            }
-                            //sync_state(autom_copy, p_state.getOut()[i].getArrive(), p_state.getOut()[j].getArrive());
-                        }
-                    }
-
-                }
-                if(Sync.size() !=0){
-                    value.setSync(Sync);
-                }
-                if (create) {
-                    a_traiter.add(value);
-                }
-            }*/
-            //System.out.println("tes");
 
 
         } else {
