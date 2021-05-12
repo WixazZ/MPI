@@ -1,7 +1,6 @@
 package elemination;
 
 import automaton.*;
-
 import java.util.*;
 
 public class Elemination {
@@ -10,7 +9,7 @@ public class Elemination {
 
         Ligne[] lignes = new Ligne[1];
         int length= 1;
-        lignes[0] = new Ligne(automate.getEtats()[automate.getInitState()[1]], automate.getNumberAlphabet());//Ajout de la premiere ligne
+        lignes[0] = new Ligne(automate.getEtats()[automate.getInitState()[0]], automate.getNumberAlphabet());//Ajout de la premiere ligne
         lignes[0].makeColonne();//Actualisation de ses colonnes
         lignes[0].setInit(true);//Ligne initial
         lignes[0].setFinish(lignes[0].isFinish());//Ligne terminal
@@ -19,9 +18,10 @@ public class Elemination {
         while(i < length){
             lignes = newLigne(lignes[i], lignes);
             i++;
+            length = lignes.length;
         }
 
-        lignes = refreshedColLigne(lignes);
+        refreshedColLigne(lignes);
 
         return ligneToAutomaton(lignes);
     }
@@ -36,7 +36,7 @@ public class Elemination {
 
         for(int i = 0; i < lignes.length; i++){
             lignes[i].setNumber(i);
-            etats[i] = new Etat(i, lignes[i].isInit(), lignes[i].isFinish(), 0, automate.getNumberAlphabet());
+            etats[i] = new Etat(i, lignes[i].isInit(), lignes[i].isFinish(), 0, 0);
         }
 
         int numberInit = 0;
@@ -47,13 +47,13 @@ public class Elemination {
 
         for(int i = 0; i < automate.getNumberState(); i++){
             if(etats[i].getInit()){
-                initState = Arrays.copyOf(initState, numberInit);
+                initState = Arrays.copyOf(initState, numberInit + 1);
                 initState[numberInit] = etats[i].getName();
                 numberInit++;
             }
 
             if(etats[i].getFinish()){
-                finishState = Arrays.copyOf(finishState, numberFinish);
+                finishState = Arrays.copyOf(finishState, numberFinish + 1);
                 finishState[numberFinish] = etats[i].getName();
                 numberFinish++;
             }
@@ -64,10 +64,13 @@ public class Elemination {
 
         for(int i = 0; i < automate.getNumberState(); i++){
             for(int j = 0; j < automate.getNumberAlphabet(); j++){
-                etats[i].addTransition(new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]), false);
-                etats[lignes[i].getColonne()[j].getLigne().getNumber()].addTransition(new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]), true);
+                Transition trans = new Transition(etats[i], lignes[0].getColonne()[j].getName(), etats[lignes[i].getColonne()[j].getLigne().getNumber()]);
+                etats[i].addTransition(trans, false);
+                etats[lignes[i].getColonne()[j].getLigne().getNumber()].addTransition(trans, true);
             }
         }
+
+        automate.setEtats(etats);
 
         return automate;
     }
@@ -94,18 +97,20 @@ public class Elemination {
     public static Ligne[] refreshedColLigne(Ligne[] lignes){
         int lengthLignes = lignes.length;
         for(int i = 0; i < lengthLignes; i++){//Parcours des lignes
-            for(int j = 0; j < lignes[i].getColonne().length; j++){
+            for(int j = 0; j < lignes[i].getColonne().length; j++){//Parcours des colonnes
                 Etat[] etats = lignes[i].getColonne()[j].getEtats();
                 for(int k = 0; k < lengthLignes; k++){//Parcours des colonnes des lignes
-                    int l = 0;
-                    boolean same = true;
-                    int lengthName = lignes[k].getName().length;
-                    while(l < lengthName && same){//Parcours des Etat des name
-                        same = etats[l].getName() == lignes[k].getName()[l].getName();
-                        l++;
-                    }
-                    if(same){
-                        lignes[i].getColonne()[j].setLigne(lignes[k]);
+                    if(etats.length == lignes[k].getName().length){
+                        int l = 0;
+                        boolean same = true;
+                        int lengthName = lignes[k].getName().length;
+                        while(l < lengthName && same){//Parcours des Etat des name
+                            same = etats[l].getName() == lignes[k].getName()[l].getName();
+                            l++;
+                        }
+                        if(same){
+                            lignes[i].getColonne()[j].setLigne(lignes[k]);
+                        }
                     }
                 }
             }
@@ -124,12 +129,19 @@ public class Elemination {
                 boolean same = true;
                 while(j < lengthNewLigne && same){
                     same = lignes[i].getName()[j].getName() == newLigne.getName()[j].getName();
+                    j++;
                 }
                 exist = same;
             }
+            i++;
         }
         return exist;
     }
+
+    /*public Ligne[] allInOne(Ligne[] lignes){
+        Ligne[] init = new Ligne[0];
+        for(int i = 0; i < )
+    }*/
 
     public static boolean isFinish(Ligne ligne){
         boolean finish = false;

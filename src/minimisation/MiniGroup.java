@@ -2,7 +2,6 @@ package minimisation;
 
 import java.util.Arrays;
 
-
 public class MiniGroup {
     private String name;
     private MiniEtat[] miniEtats;
@@ -12,13 +11,13 @@ public class MiniGroup {
     /**Constructeur */
     public MiniGroup(){
         this.name = "";
-        this.miniEtats = null;
+        this.miniEtats = new MiniEtat[0];
         this.indexMiniEtats = 0;
     }
 
     public MiniGroup(String name, boolean finish){
         this.name = name;
-        this.miniEtats = null;
+        this.miniEtats = new MiniEtat[0];
         this.indexMiniEtats = 0;
         this.finish = finish;
     }
@@ -63,6 +62,7 @@ public class MiniGroup {
     public void addEtat(MiniEtat etat){
         if(indexMiniEtats == 0){
             miniEtats = new MiniEtat[1];
+            miniEtats[0] = etat;
             indexMiniEtats++;
         } else{
             miniEtats = Arrays.copyOf(miniEtats, indexMiniEtats + 1);

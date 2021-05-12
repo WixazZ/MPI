@@ -5,7 +5,7 @@ import automaton.*;
 
 public class Minimisation {
 
-    public Automaton minimisation(Automaton automate){
+    public static Automaton minimisation(Automaton automate){
 
         MiniGroup[] groups = initMinimation(automate);
 
@@ -30,7 +30,7 @@ public class Minimisation {
         return miniToAutomaton(groups);
     }
 
-    public Automaton miniToAutomaton(MiniGroup[] groups){
+    public static Automaton miniToAutomaton(MiniGroup[] groups){
 
         Automaton automate = new Automaton();
         automate.setNumberAlphabet(groups[0].getMiniEtats()[0].getEtat().getIndexOut());
@@ -44,7 +44,7 @@ public class Minimisation {
             for(int j = 0; j < groups[i].getIndexMiniEtats() && !init; j++){
                 init = groups[i].getMiniEtats()[j].getEtat().getInit();
             }
-            etats[i] = new Etat(i, init, groups[i].getFinish(), 0, automate.getNumberAlphabet());
+            etats[i] = new Etat(i, init, groups[i].getFinish(), 0, 0);
         }
 
         int numberInit = 0;
@@ -67,6 +67,24 @@ public class Minimisation {
             }
         }
 
+        for(int i = 0; i < automate.getNumberState(); i++){
+            for(int j = 0; j < automate.getNumberAlphabet(); j++){
+                int k = 0;
+                boolean find = false;
+                while(k < automate.getNumberState() && !find){
+                    if(groups[k] == groups[i].getMiniEtats()[0].getTransition()[j].getArrive().getMiniGroup()){
+                        find = true;
+                    } else{
+                        k++;
+                    }
+                }
+
+                Transition trans = new Transition(etats[i], groups[i].getMiniEtats()[0].getTransition()[j].getWord(), etats[k]);
+                etats[i].addTransition(trans, false);
+                etats[k].addTransition(trans, true);
+            }
+        }
+
         automate.setInitState(initState);
         automate.setFinishState(finishState);
         automate.setEtats(etats);
@@ -74,7 +92,7 @@ public class Minimisation {
         return automate;
     }
 
-    public MiniGroup[] appendMiniGroupArray(MiniGroup[] newGroups, MiniGroup[] tempGroup){
+    public static MiniGroup[] appendMiniGroupArray(MiniGroup[] newGroups, MiniGroup[] tempGroup){
         int newLength = newGroups.length;
         int tempLength = tempGroup.length;
         newGroups = Arrays.copyOf(newGroups, newLength + tempLength);
@@ -85,15 +103,15 @@ public class Minimisation {
         return newGroups;
     }
 
-    public boolean isMinimized(MiniGroup[] oldGroup, MiniGroup[] currentGroup){
+    public static boolean isMinimized(MiniGroup[] oldGroup, MiniGroup[] currentGroup){
         return oldGroup.length == currentGroup.length;
     }
 
-    public MiniGroup[] split(MiniGroup group){//Split des différents MiniGroup
+    public static MiniGroup[] split(MiniGroup group){//Split des différents MiniGroup
 
         MiniGroup[] groupes = new MiniGroup[group.getIndexMiniEtats()];
         groupes[0] = new MiniGroup(group.getName() + "0", group.getFinish());
-        groupes[0].addEtat(new MiniEtat(group.getMiniEtats()[1], groupes[0]));
+        groupes[0].addEtat(new MiniEtat(group.getMiniEtats()[0], groupes[0]));
         int indexMiniGroup = 1;
 
         for(int i = 1; i < group.getIndexMiniEtats(); i++){
@@ -108,14 +126,18 @@ public class Minimisation {
                 groupes[j].addEtat(new MiniEtat(group.getMiniEtats()[i], groupes[j]));
             } else{
                 groupes[j] = new MiniGroup(group.getName() + j, group.getFinish());
+                groupes[j].addEtat(new MiniEtat(group.getMiniEtats()[i], groupes[j]));
                 indexMiniGroup++;
             }
         }
-
+        for(int i = 0; i < indexMiniGroup; i++){
+            groupes[i].makeTransition(groupes, indexMiniGroup);
+        }
+        groupes = Arrays.copyOf(groupes, indexMiniGroup);
         return groupes;
     }
 
-    public MiniGroup[] initMinimation(Automaton automate){//Initialisation des MiniGroups T et N
+    public static MiniGroup[] initMinimation(Automaton automate){//Initialisation des MiniGroups T et N
 
         Etat[] etats = automate.getEtats();
 

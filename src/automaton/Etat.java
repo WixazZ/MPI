@@ -147,13 +147,13 @@ public class Etat {
     public Etat[] parcoursEpsilon(char word){
         Etat[] etats = new Etat[0];
         int length = 0;
-        for(int i = 0; i < out.length; i++){
+        for(int i = 0; i < indexOut; i++){
             if (out[i].getWord() == word){
                 etats = Arrays.copyOf(etats, length + 1);
                 etats[length] = out[i].getArrive();
                 length++;
             } else if(out[i].getWord() == '*'){
-                etats = mergeEtatTab(etats, parcoursEpsilon(word));
+                etats = mergeEtatTab(etats, out[i].getArrive().parcoursEpsilon(word));
             }
         }
         return etats;
